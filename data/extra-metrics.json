@@ -7,7 +7,9 @@
     "stablecoins": "stellar.stablecoins.transfers, columns ledger_close_time, asset_code, usd_amount. Top 10 by 12mo total USD volume. Some assets have null usd in early months (no price); treated as 0.",
     "rwa": "Market cap from crosschain.rwa.supply_latest / metrics_daily (chain='stellar') — Allium's curated, priced RWA model (price_usd*supply). Reconciles to ~$2.92B, matching the public Allium dashboard. Monthly series = end-of-month snapshots. holdersTotal=15,455 holder-positions (sum of per-token holders).",
     "blend": "stellar.lending.deposits & stellar.lending.withdrawals (project=protocol='blend'), columns ledger_close_time, usd_amount, token_address. TVL = cumulative monthly (deposits_usd - withdrawals_usd) within the 12mo window, total only. Asset-class breakdown NOT available: token_symbol is null on these rows and token_address holds raw Soroban contract IDs with no symbol map. Cumulative is window-relative (starts at June 2025 net flow, not protocol inception), so absolute level is a lower-bound proxy.",
-    "bridges": "stellar.bridges.transfers, columns ledger_close_time, source_chain, destination_chain, direction, usd_amount. inbound = <chain>->stellar, outbound = stellar-><chain>. Values are 12-month TOTALS per chain (single bucket 'total'), NOT a monthly series — monthly granularity omitted because per-chain monthly volumes are very sparse (most chains <2000 transfers/yr) and would be mostly zeros. Ethereum dominates both directions (~$36M in / $34M out). Chains with null usd (berachain, hyperliquid, flow, xrpl-evm) excluded."
+    "bridges": "stellar.bridges.transfers, columns ledger_close_time, source_chain, destination_chain, direction, usd_amount. inbound = <chain>->stellar, outbound = stellar-><chain>. Values are 12-month TOTALS per chain (single bucket 'total'), NOT a monthly series — monthly granularity omitted because per-chain monthly volumes are very sparse (most chains <2000 transfers/yr) and would be mostly zeros. Ethereum dominates both directions (~$36M in / $34M out). Chains with null usd (berachain, hyperliquid, flow, xrpl-evm) excluded.",
+    "compliance": "Monthly op counts from stellar.raw.operations by type (clawback, set_trust_line_flags, set_options). All-time totals cited from Allium report (through Feb 2026).",
+    "stablecoinMcap": "stellar.stablecoins.supply_distribution_daily end-of-month, ex-BRZ, glitch-corrected."
   },
   "smartContractOps": {
     "months": [
@@ -890,5 +892,302 @@
         "total": 10148
       }
     ]
+  },
+  "compliance": {
+    "months": [
+      "2024-12",
+      "2025-01",
+      "2025-02",
+      "2025-03",
+      "2025-04",
+      "2025-05",
+      "2025-06",
+      "2025-07",
+      "2025-08",
+      "2025-09",
+      "2025-10",
+      "2025-11",
+      "2025-12",
+      "2026-01",
+      "2026-02",
+      "2026-03",
+      "2026-04",
+      "2026-05",
+      "2026-06"
+    ],
+    "series": [
+      {
+        "type": "Clawback",
+        "data": [
+          360023,
+          579347,
+          571841,
+          528362,
+          515266,
+          493644,
+          484633,
+          531729,
+          499173,
+          483702,
+          471900,
+          432908,
+          447124,
+          419725,
+          332502,
+          494645,
+          623536,
+          586817,
+          333014
+        ]
+      },
+      {
+        "type": "Freeze (trustline flags)",
+        "data": [
+          700228,
+          1164422,
+          999680,
+          1060091,
+          1001180,
+          1017029,
+          998979,
+          1094475,
+          1034629,
+          1003164,
+          988311,
+          902450,
+          924566,
+          888452,
+          702916,
+          888516,
+          611830,
+          849069,
+          697658
+        ]
+      },
+      {
+        "type": "Multisig (set options)",
+        "data": [
+          1015044,
+          1200949,
+          1354506,
+          948290,
+          586773,
+          704390,
+          691322,
+          869371,
+          337942,
+          312132,
+          329506,
+          313813,
+          274082,
+          244154,
+          205673,
+          418297,
+          878734,
+          603918,
+          184091
+        ]
+      }
+    ],
+    "allTime": {
+      "clawback": "79.3M",
+      "freeze": "105.1M",
+      "claimableBalances": "2.7B",
+      "multisig": "46.0M"
+    }
+  },
+  "stablecoinMcap": {
+    "months": [
+      "2024-12",
+      "2025-01",
+      "2025-02",
+      "2025-03",
+      "2025-04",
+      "2025-05",
+      "2025-06",
+      "2025-07",
+      "2025-08",
+      "2025-09",
+      "2025-10",
+      "2025-11",
+      "2025-12",
+      "2026-01",
+      "2026-02",
+      "2026-03",
+      "2026-04",
+      "2026-05",
+      "2026-06"
+    ],
+    "series": [
+      {
+        "asset": "USDC",
+        "data": [
+          154293901,
+          190121444,
+          243486957,
+          275657792,
+          332236721,
+          174968330,
+          156454162,
+          195023957,
+          190053108,
+          228706560,
+          234926781,
+          200627391,
+          223186907,
+          194419571,
+          219118938,
+          260374050,
+          281506367,
+          204665259,
+          268349610
+        ]
+      },
+      {
+        "asset": "C1USD",
+        "data": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          50000000,
+          50000000,
+          49988745,
+          49993003,
+          50010390,
+          50919610,
+          48900870,
+          49893300,
+          49841997,
+          49895375,
+          49899935
+        ]
+      },
+      {
+        "asset": "EURCV",
+        "data": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          11791898,
+          17371048,
+          17618645,
+          17506044,
+          17056982
+        ]
+      },
+      {
+        "asset": "PYUSD",
+        "data": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          249950,
+          250052,
+          7250025,
+          11248090,
+          7401992,
+          7400635,
+          7401560,
+          7400664,
+          7401510,
+          7399899,
+          7400090
+        ]
+      },
+      {
+        "asset": "AUDD",
+        "data": [
+          128882,
+          106828,
+          101616,
+          98652,
+          98712,
+          254165,
+          102328,
+          98516,
+          2052811,
+          1932499,
+          885396,
+          2237706,
+          5860474,
+          4085430,
+          4773708,
+          4463447,
+          4316258,
+          4235790,
+          3804996
+        ]
+      },
+      {
+        "asset": "EURC",
+        "data": [
+          1303550,
+          1355070,
+          2358634,
+          5864192,
+          1771799,
+          1890440,
+          1705553,
+          2024978,
+          2247590,
+          2101831,
+          2554970,
+          3079989,
+          3038326,
+          3828817,
+          2520151,
+          2916318,
+          3338232,
+          3599549,
+          3067640
+        ]
+      },
+      {
+        "asset": "Other",
+        "data": [
+          1550349,
+          1502093,
+          1506925,
+          1298003,
+          1305519,
+          1186099,
+          931146,
+          1928597,
+          1920521,
+          1309776,
+          1343561,
+          1270080,
+          1180130,
+          1247393,
+          778398,
+          1070742,
+          135296896,
+          134842353,
+          476989
+        ]
+      }
+    ],
+    "note": "Excludes BRZ (Transfero BRL, ~$400M raw) — Allium's stablecoin metric and SDF reporting exclude it. C1USD Aug-2025 $1B glitch corrected to $50M. BRZ and the C1-fiat family report intermittently in recent snapshots."
   }
 }

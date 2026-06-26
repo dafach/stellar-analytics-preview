@@ -3,7 +3,8 @@
     "generated": "2026-06-26",
     "source": "Allium (stellar.* warehouse)",
     "freshnessNote": "Raw tables lag ~5h; today's row is partial. Refresh via scripts/refresh.mjs.",
-    "seedNote": "90-day daily series + latest stablecoin supply from live Allium queries (2026-06-26)."
+    "seedNote": "90-day daily series + latest stablecoin supply from live Allium queries (2026-06-26).",
+    "kpiNote": "All header KPIs live-queried from Allium (stellar.raw.operations/transactions, trailing 12mo). Avg fee = total fees XLM / total operations × live XLM price; rises with XLM price."
   },
   "kpis": {
     "rwaMarketCapUsd": {
@@ -14,21 +15,21 @@
     },
     "operationCount": {
       "label": "Operation Count",
-      "value": 2860000000,
+      "value": 2862143631,
       "format": "compact",
       "sub": "Past 12 months"
     },
     "activeAddresses": {
       "label": "Active Addresses",
-      "value": 3800000,
+      "value": 3469586,
       "format": "compact",
       "sub": "Past 12 months"
     },
     "newAddresses": {
-      "label": "New Addresses",
-      "value": 2460000,
+      "label": "New Accounts",
+      "value": 4613922,
       "format": "compact",
-      "sub": "Past 12 months"
+      "sub": "create_account ops · 12mo"
     },
     "stablecoinSupplyUsd": {
       "label": "Stablecoin Supply",
@@ -37,10 +38,10 @@
       "sub": "Latest"
     },
     "avgFeeUsd": {
-      "label": "Avg Fee per Operation",
-      "value": 0.0003,
-      "format": "usd4",
-      "sub": "Past 12 months"
+      "label": "Avg Fee / Operation",
+      "value": 0.0001561676183778866,
+      "format": "usdSmall",
+      "sub": "12mo · at XLM $0.178"
     }
   },
   "daily": [
