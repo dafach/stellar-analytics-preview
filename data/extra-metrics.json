@@ -1,0 +1,750 @@
+{
+  "_notes": {
+    "generated": "2026-06-26",
+    "window": "Last 12 full months 2025-06 through 2026-05; data ~5h lagged, current partial month (2026-06) excluded.",
+    "smartContractOps": "stellar.raw.operations, columns ledger_close_time + type. Three Soroban op types present: invoke_host_function (dominant, ~19M-65M/mo), restore_footprint, extend_footprint_ttl. No create_contract/upload_wasm as distinct type values (those are sub-kinds of invoke_host_function host fns).",
+    "dex": "stellar.dex.trades, columns ledger_close_time, protocol, usd_amount. 4 protocols: stellar_orderbook, stellar_liquidity_pool, aquarius, soroswap. A small null-protocol bucket in 2026-03 dropped.",
+    "stablecoins": "stellar.stablecoins.transfers, columns ledger_close_time, asset_code, usd_amount. Top 10 by 12mo total USD volume. Some assets have null usd in early months (no price); treated as 0.",
+    "rwa": "latest market cap = stellar.rwa.balances_eod (block_date=2026-06-26, balance>0) joined to latest stellar.rwa.supply_change.usd_exchange_rate per token_symbol; market_cap = sum(balance)*rate. This is the Stellar-native on-ledger snapshot (209 holders, ~14 tokens). NOTE: balances_eod is Stellar-chain only and undercounts vs. crosschain issued supply (e.g. supply_change cumulative mint for EUTBL/BENJI/USDY is far larger). Monthly 'series' = cumulative running net mint-minus-burn USD (stellar.rwa.supply_change is_mint/is_burn, usd_amount), a directional supply proxy NOT a clean market-cap stock; tokens with null usd_exchange_rate (most WisdomTree, Mercado Bitcoin, Red Swan, Janus Henderson) excluded from priced series. holdersTotal=209 (distinct on-ledger addresses with positive RWA balance today).",
+    "blend": "stellar.lending.deposits & stellar.lending.withdrawals (project=protocol='blend'), columns ledger_close_time, usd_amount, token_address. TVL = cumulative monthly (deposits_usd - withdrawals_usd) within the 12mo window, total only. Asset-class breakdown NOT available: token_symbol is null on these rows and token_address holds raw Soroban contract IDs with no symbol map. Cumulative is window-relative (starts at June 2025 net flow, not protocol inception), so absolute level is a lower-bound proxy.",
+    "bridges": "stellar.bridges.transfers, columns ledger_close_time, source_chain, destination_chain, direction, usd_amount. inbound = <chain>->stellar, outbound = stellar-><chain>. Values are 12-month TOTALS per chain (single bucket 'total'), NOT a monthly series \u2014 monthly granularity omitted because per-chain monthly volumes are very sparse (most chains <2000 transfers/yr) and would be mostly zeros. Ethereum dominates both directions (~$36M in / $34M out). Chains with null usd (berachain, hyperliquid, flow, xrpl-evm) excluded."
+  },
+  "smartContractOps": {
+    "months": [
+      "2025-06",
+      "2025-07",
+      "2025-08",
+      "2025-09",
+      "2025-10",
+      "2025-11",
+      "2025-12",
+      "2026-01",
+      "2026-02",
+      "2026-03",
+      "2026-04",
+      "2026-05"
+    ],
+    "series": [
+      {
+        "type": "Invoke Host Function",
+        "data": [
+          18748309,
+          25651543,
+          30422531,
+          36950229,
+          33748800,
+          36369500,
+          40685357,
+          37460839,
+          52843635,
+          64292444,
+          54972951,
+          65037660
+        ]
+      },
+      {
+        "type": "Restore Footprint",
+        "data": [
+          356,
+          893,
+          568,
+          62,
+          42,
+          0,
+          4,
+          2,
+          8,
+          1,
+          17,
+          0
+        ]
+      },
+      {
+        "type": "Extend Footprint TTL",
+        "data": [
+          270,
+          48,
+          36,
+          2,
+          1470,
+          6,
+          27,
+          4,
+          714,
+          64,
+          35,
+          51
+        ]
+      }
+    ]
+  },
+  "dexByProtocol": {
+    "months": [
+      "2025-06",
+      "2025-07",
+      "2025-08",
+      "2025-09",
+      "2025-10",
+      "2025-11",
+      "2025-12",
+      "2026-01",
+      "2026-02",
+      "2026-03",
+      "2026-04",
+      "2026-05"
+    ],
+    "volume": [
+      {
+        "protocol": "Stellar Orderbook",
+        "data": [
+          123545125,
+          300767227,
+          321210774,
+          258431756,
+          303570194,
+          326535138,
+          281887571,
+          321659770,
+          211558392,
+          289021541,
+          402605310,
+          563042819
+        ]
+      },
+      {
+        "protocol": "Stellar Liquidity Pool",
+        "data": [
+          7653353,
+          23517869,
+          15546096,
+          6641504,
+          10313204,
+          8638477,
+          5076360,
+          5198892,
+          6074579,
+          4430632,
+          3022080,
+          8647747
+        ]
+      },
+      {
+        "protocol": "Aquarius",
+        "data": [
+          28472,
+          105009,
+          400499,
+          134024,
+          27918,
+          85724,
+          982225,
+          1800437,
+          1351496,
+          1020598,
+          9317347,
+          10829340
+        ]
+      },
+      {
+        "protocol": "Soroswap",
+        "data": [
+          23767,
+          19488,
+          103756,
+          62887,
+          35964,
+          206412,
+          189970,
+          379393,
+          991246,
+          540417,
+          1182780,
+          5469476
+        ]
+      }
+    ],
+    "trades": [
+      {
+        "protocol": "Stellar Orderbook",
+        "data": [
+          6237194,
+          11045730,
+          12796279,
+          13754274,
+          17257868,
+          18662128,
+          19294526,
+          8887605,
+          10968443,
+          10337219,
+          8711447,
+          10838161
+        ]
+      },
+      {
+        "protocol": "Stellar Liquidity Pool",
+        "data": [
+          12745107,
+          15369042,
+          13392714,
+          10638817,
+          9868650,
+          9244891,
+          8616016,
+          8985270,
+          8787774,
+          12162902,
+          28988842,
+          38852916
+        ]
+      },
+      {
+        "protocol": "Aquarius",
+        "data": [
+          5226,
+          7744,
+          13458,
+          7158,
+          956,
+          4311,
+          19148,
+          30114,
+          29246,
+          50288,
+          141713,
+          127870
+        ]
+      },
+      {
+        "protocol": "Soroswap",
+        "data": [
+          176,
+          193,
+          268,
+          147,
+          55,
+          147,
+          592,
+          1258,
+          1635,
+          1738,
+          15530,
+          25374
+        ]
+      }
+    ]
+  },
+  "stablecoinVolumeByAsset": {
+    "months": [
+      "2025-06",
+      "2025-07",
+      "2025-08",
+      "2025-09",
+      "2025-10",
+      "2025-11",
+      "2025-12",
+      "2026-01",
+      "2026-02",
+      "2026-03",
+      "2026-04",
+      "2026-05"
+    ],
+    "series": [
+      {
+        "asset": "USDC",
+        "data": [
+          1648587681,
+          2196011863,
+          2253446662,
+          2086405555,
+          2329368330,
+          2509839408,
+          2526595733,
+          2628903032,
+          2168869226,
+          2627869020,
+          3348516453,
+          4207857591
+        ]
+      },
+      {
+        "asset": "EURC",
+        "data": [
+          7661877,
+          16245064,
+          12054844,
+          17411031,
+          40996598,
+          39609624,
+          37823453,
+          47732899,
+          149876400,
+          256176879,
+          250190882,
+          270038232
+        ]
+      },
+      {
+        "asset": "AUDD",
+        "data": [
+          201713,
+          15466,
+          166504167,
+          178456467,
+          218982048,
+          131334343,
+          83083333,
+          89273298,
+          67048382,
+          43260967,
+          28728266,
+          43372713
+        ]
+      },
+      {
+        "asset": "PYUSD",
+        "data": [
+          0,
+          0,
+          275767,
+          8979,
+          23396216,
+          9596128,
+          20509054,
+          622201,
+          2242610,
+          3055005,
+          4822071,
+          2024482
+        ]
+      },
+      {
+        "asset": "C1EUR",
+        "data": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1149,
+          0,
+          0,
+          0,
+          0,
+          52110760,
+          0
+        ]
+      },
+      {
+        "asset": "C1USD",
+        "data": [
+          0,
+          0,
+          0,
+          0,
+          236198,
+          29552,
+          1511419,
+          25866,
+          52819,
+          27535,
+          43071074,
+          192852
+        ]
+      },
+      {
+        "asset": "C1CHF",
+        "data": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1235,
+          0,
+          0,
+          0,
+          0,
+          43972377,
+          0
+        ]
+      },
+      {
+        "asset": "C1GBP",
+        "data": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1304,
+          0,
+          0,
+          0,
+          0,
+          43829488,
+          49814
+        ]
+      },
+      {
+        "asset": "C1AUD",
+        "data": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          648,
+          0,
+          0,
+          0,
+          0,
+          43746925,
+          0
+        ]
+      },
+      {
+        "asset": "C1SGD",
+        "data": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          765,
+          0,
+          0,
+          0,
+          0,
+          43637592,
+          0
+        ]
+      }
+    ]
+  },
+  "rwaByIssuer": {
+    "latest": [
+      {
+        "issuer": "Spiko EU T-Bills Money Market Fund",
+        "symbol": "EUTBL",
+        "holders": 35,
+        "marketCapUsd": 25539750
+      },
+      {
+        "issuer": "Spiko Amundi Overnight Swap Fund EUR",
+        "symbol": "eurSAFO",
+        "holders": 11,
+        "marketCapUsd": 5327451
+      },
+      {
+        "issuer": "Etherfuse CETES",
+        "symbol": "CETES",
+        "holders": 56,
+        "marketCapUsd": 2070692
+      },
+      {
+        "issuer": "Etherfuse USTRY",
+        "symbol": "USTRY",
+        "holders": 34,
+        "marketCapUsd": 874353
+      },
+      {
+        "issuer": "Etherfuse TESOURO",
+        "symbol": "TESOURO",
+        "holders": 6,
+        "marketCapUsd": 497444
+      },
+      {
+        "issuer": "Ondo US Dollar Yield (Stellar)",
+        "symbol": "USDY",
+        "holders": 42,
+        "marketCapUsd": 920
+      },
+      {
+        "issuer": "Franklin OnChain U.S. Government Money Fund",
+        "symbol": "BENJI",
+        "holders": 1,
+        "marketCapUsd": 212
+      }
+    ],
+    "holdersTotal": 209,
+    "months": [
+      "2025-06",
+      "2025-07",
+      "2025-08",
+      "2025-09",
+      "2025-10",
+      "2025-11",
+      "2025-12",
+      "2026-01",
+      "2026-02",
+      "2026-03",
+      "2026-04",
+      "2026-05"
+    ],
+    "series": [
+      {
+        "issuer": "Ondo US Dollar Yield (Stellar)",
+        "data": [
+          0,
+          0,
+          0,
+          607147,
+          978861,
+          978861,
+          978861,
+          10838823,
+          119583559,
+          119583559,
+          119583559,
+          522230625
+        ]
+      },
+      {
+        "issuer": "Spiko EU T-Bills Money Market Fund",
+        "data": [
+          0,
+          0,
+          0,
+          0,
+          13862505,
+          39403754,
+          129838769,
+          206569736,
+          332946860,
+          450826808,
+          458658696,
+          500283926
+        ]
+      },
+      {
+        "issuer": "Franklin OnChain U.S. Government Money Fund",
+        "data": [
+          6067834,
+          8730686,
+          66038818,
+          35100959,
+          110223410,
+          115098527,
+          92236843,
+          162828843,
+          186269569,
+          165646902,
+          146320933,
+          137134094
+        ]
+      },
+      {
+        "issuer": "Spiko Amundi Overnight Swap Fund EUR",
+        "data": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          20326907,
+          116022572
+        ]
+      },
+      {
+        "issuer": "Spiko Amundi Overnight Swap Fund",
+        "data": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          34413251,
+          59858808
+        ]
+      },
+      {
+        "issuer": "Etherfuse USTRY",
+        "data": [
+          0,
+          2,
+          2,
+          45923,
+          10081862,
+          10081862,
+          10081878,
+          10081878,
+          10081878,
+          11081102,
+          11081102,
+          11081102
+        ]
+      }
+    ]
+  },
+  "blendTvl": {
+    "months": [
+      "2025-06",
+      "2025-07",
+      "2025-08",
+      "2025-09",
+      "2025-10",
+      "2025-11",
+      "2025-12",
+      "2026-01",
+      "2026-02",
+      "2026-03",
+      "2026-04",
+      "2026-05"
+    ],
+    "series": [
+      {
+        "assetClass": "All assets (total)",
+        "data": [
+          1760861,
+          13808914,
+          22034997,
+          30616910,
+          53550388,
+          91568810,
+          114526638,
+          124706764,
+          145730938,
+          164124911,
+          173557428,
+          164474244
+        ]
+      }
+    ]
+  },
+  "bridgeFlows": {
+    "months": [
+      "2025-06",
+      "2025-07",
+      "2025-08",
+      "2025-09",
+      "2025-10",
+      "2025-11",
+      "2025-12",
+      "2026-01",
+      "2026-02",
+      "2026-03",
+      "2026-04",
+      "2026-05"
+    ],
+    "window": "12-month totals per chain (not monthly)",
+    "inflows": [
+      {
+        "chain": "ethereum",
+        "total": 36087338
+      },
+      {
+        "chain": "solana",
+        "total": 2147806
+      },
+      {
+        "chain": "bsc",
+        "total": 922554
+      },
+      {
+        "chain": "arbitrum",
+        "total": 709317
+      },
+      {
+        "chain": "base",
+        "total": 479324
+      },
+      {
+        "chain": "tron",
+        "total": 362203
+      },
+      {
+        "chain": "polygon",
+        "total": 241515
+      },
+      {
+        "chain": "xrpl",
+        "total": 96455
+      },
+      {
+        "chain": "sui",
+        "total": 73709
+      },
+      {
+        "chain": "avalanche",
+        "total": 51529
+      },
+      {
+        "chain": "optimism",
+        "total": 19405
+      },
+      {
+        "chain": "celo",
+        "total": 7877
+      },
+      {
+        "chain": "linea",
+        "total": 2490
+      }
+    ],
+    "outflows": [
+      {
+        "chain": "ethereum",
+        "total": 34171179
+      },
+      {
+        "chain": "xrpl",
+        "total": 1347555
+      },
+      {
+        "chain": "base",
+        "total": 1202540
+      },
+      {
+        "chain": "solana",
+        "total": 986993
+      },
+      {
+        "chain": "bsc",
+        "total": 853993
+      },
+      {
+        "chain": "tron",
+        "total": 337566
+      },
+      {
+        "chain": "arbitrum",
+        "total": 303020
+      },
+      {
+        "chain": "polygon",
+        "total": 178294
+      },
+      {
+        "chain": "avalanche",
+        "total": 48709
+      },
+      {
+        "chain": "sui",
+        "total": 27638
+      },
+      {
+        "chain": "celo",
+        "total": 15183
+      },
+      {
+        "chain": "optimism",
+        "total": 12996
+      },
+      {
+        "chain": "sonic",
+        "total": 10148
+      }
+    ]
+  }
+}
