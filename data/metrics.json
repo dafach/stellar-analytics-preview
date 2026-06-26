@@ -1,0 +1,1631 @@
+{
+  "meta": {
+    "generated": "2026-06-26",
+    "source": "Allium (stellar.* warehouse)",
+    "freshnessNote": "Raw tables lag ~5h; today's row is partial. Refresh via scripts/refresh.mjs.",
+    "seedNote": "90-day daily series + latest stablecoin supply from live Allium queries (2026-06-26)."
+  },
+  "kpis": {
+    "operationCount": {
+      "label": "Operation Count",
+      "value": 2860000000,
+      "format": "compact",
+      "sub": "Past 12 months"
+    },
+    "activeAddresses": {
+      "label": "Active Addresses",
+      "value": 3800000,
+      "format": "compact",
+      "sub": "Past 12 months"
+    },
+    "newAddresses": {
+      "label": "New Addresses",
+      "value": 2460000,
+      "format": "compact",
+      "sub": "Past 12 months"
+    },
+    "stablecoinSupplyUsd": {
+      "label": "Stablecoin Supply",
+      "value": 350056243,
+      "format": "usdCompact",
+      "sub": "Latest"
+    },
+    "avgFeeUsd": {
+      "label": "Avg Fee per Operation",
+      "value": 0.0003,
+      "format": "usd4",
+      "sub": "Past 12 months"
+    }
+  },
+  "daily": [
+    {
+      "date": "2026-03-28",
+      "txCount": 4071278,
+      "txSuccess": 3321031,
+      "feesXlm": 4431,
+      "activeAddresses": 44879,
+      "newAccounts": 12349,
+      "paymentOps": 1589749
+    },
+    {
+      "date": "2026-03-29",
+      "txCount": 4333532,
+      "txSuccess": 3384807,
+      "feesXlm": 4762,
+      "activeAddresses": 39793,
+      "newAccounts": 9721,
+      "paymentOps": 1537453
+    },
+    {
+      "date": "2026-03-30",
+      "txCount": 4522319,
+      "txSuccess": 3706443,
+      "feesXlm": 5939,
+      "activeAddresses": 53010,
+      "newAccounts": 14060,
+      "paymentOps": 1499153
+    },
+    {
+      "date": "2026-03-31",
+      "txCount": 4650772,
+      "txSuccess": 3799625,
+      "feesXlm": 4982,
+      "activeAddresses": 53415,
+      "newAccounts": 12913,
+      "paymentOps": 1573939
+    },
+    {
+      "date": "2026-04-01",
+      "txCount": 5530335,
+      "txSuccess": 3900965,
+      "feesXlm": 5087,
+      "activeAddresses": 66191,
+      "newAccounts": 17044,
+      "paymentOps": 1624438
+    },
+    {
+      "date": "2026-04-02",
+      "txCount": 5831488,
+      "txSuccess": 3741582,
+      "feesXlm": 4993,
+      "activeAddresses": 54019,
+      "newAccounts": 12399,
+      "paymentOps": 1525204
+    },
+    {
+      "date": "2026-04-03",
+      "txCount": 4808058,
+      "txSuccess": 3224185,
+      "feesXlm": 4150,
+      "activeAddresses": 53144,
+      "newAccounts": 13233,
+      "paymentOps": 1747549
+    },
+    {
+      "date": "2026-04-04",
+      "txCount": 4667273,
+      "txSuccess": 3525586,
+      "feesXlm": 4853,
+      "activeAddresses": 45633,
+      "newAccounts": 13623,
+      "paymentOps": 1532166
+    },
+    {
+      "date": "2026-04-05",
+      "txCount": 4824601,
+      "txSuccess": 3438174,
+      "feesXlm": 4702,
+      "activeAddresses": 42179,
+      "newAccounts": 16130,
+      "paymentOps": 1384935
+    },
+    {
+      "date": "2026-04-06",
+      "txCount": 5190693,
+      "txSuccess": 3702766,
+      "feesXlm": 5096,
+      "activeAddresses": 70241,
+      "newAccounts": 14854,
+      "paymentOps": 2068817
+    },
+    {
+      "date": "2026-04-07",
+      "txCount": 5107757,
+      "txSuccess": 3698033,
+      "feesXlm": 4781,
+      "activeAddresses": 99097,
+      "newAccounts": 17069,
+      "paymentOps": 2185082
+    },
+    {
+      "date": "2026-04-08",
+      "txCount": 4995625,
+      "txSuccess": 3606462,
+      "feesXlm": 4903,
+      "activeAddresses": 62851,
+      "newAccounts": 16503,
+      "paymentOps": 1969071
+    },
+    {
+      "date": "2026-04-09",
+      "txCount": 5106749,
+      "txSuccess": 3699680,
+      "feesXlm": 5837,
+      "activeAddresses": 79222,
+      "newAccounts": 15192,
+      "paymentOps": 1361292
+    },
+    {
+      "date": "2026-04-10",
+      "txCount": 4827801,
+      "txSuccess": 3587979,
+      "feesXlm": 5163,
+      "activeAddresses": 47742,
+      "newAccounts": 11297,
+      "paymentOps": 1291358
+    },
+    {
+      "date": "2026-04-11",
+      "txCount": 4609471,
+      "txSuccess": 3511893,
+      "feesXlm": 5229,
+      "activeAddresses": 42058,
+      "newAccounts": 9865,
+      "paymentOps": 2050249
+    },
+    {
+      "date": "2026-04-12",
+      "txCount": 4673556,
+      "txSuccess": 3399463,
+      "feesXlm": 4706,
+      "activeAddresses": 37022,
+      "newAccounts": 6181,
+      "paymentOps": 2069412
+    },
+    {
+      "date": "2026-04-13",
+      "txCount": 4477711,
+      "txSuccess": 3246497,
+      "feesXlm": 4404,
+      "activeAddresses": 46430,
+      "newAccounts": 9268,
+      "paymentOps": 2106323
+    },
+    {
+      "date": "2026-04-14",
+      "txCount": 4543113,
+      "txSuccess": 3316264,
+      "feesXlm": 4420,
+      "activeAddresses": 45930,
+      "newAccounts": 5890,
+      "paymentOps": 2391374
+    },
+    {
+      "date": "2026-04-15",
+      "txCount": 4781002,
+      "txSuccess": 3387785,
+      "feesXlm": 4476,
+      "activeAddresses": 49776,
+      "newAccounts": 6325,
+      "paymentOps": 2613809
+    },
+    {
+      "date": "2026-04-16",
+      "txCount": 5226892,
+      "txSuccess": 3564591,
+      "feesXlm": 4913,
+      "activeAddresses": 45771,
+      "newAccounts": 6227,
+      "paymentOps": 3964504
+    },
+    {
+      "date": "2026-04-17",
+      "txCount": 5132453,
+      "txSuccess": 3627660,
+      "feesXlm": 4671,
+      "activeAddresses": 49054,
+      "newAccounts": 12019,
+      "paymentOps": 1947189
+    },
+    {
+      "date": "2026-04-18",
+      "txCount": 4648657,
+      "txSuccess": 3268960,
+      "feesXlm": 4226,
+      "activeAddresses": 41708,
+      "newAccounts": 11818,
+      "paymentOps": 4241332
+    },
+    {
+      "date": "2026-04-19",
+      "txCount": 4149333,
+      "txSuccess": 3056212,
+      "feesXlm": 3538,
+      "activeAddresses": 36085,
+      "newAccounts": 8133,
+      "paymentOps": 3808482
+    },
+    {
+      "date": "2026-04-20",
+      "txCount": 4378741,
+      "txSuccess": 3232799,
+      "feesXlm": 4180,
+      "activeAddresses": 44926,
+      "newAccounts": 11431,
+      "paymentOps": 3866174
+    },
+    {
+      "date": "2026-04-21",
+      "txCount": 4646859,
+      "txSuccess": 3379788,
+      "feesXlm": 4575,
+      "activeAddresses": 49069,
+      "newAccounts": 14591,
+      "paymentOps": 4132956
+    },
+    {
+      "date": "2026-04-22",
+      "txCount": 4547291,
+      "txSuccess": 3333255,
+      "feesXlm": 5509,
+      "activeAddresses": 56776,
+      "newAccounts": 11932,
+      "paymentOps": 4943109
+    },
+    {
+      "date": "2026-04-23",
+      "txCount": 4250348,
+      "txSuccess": 3249551,
+      "feesXlm": 4089,
+      "activeAddresses": 45554,
+      "newAccounts": 10386,
+      "paymentOps": 4448121
+    },
+    {
+      "date": "2026-04-24",
+      "txCount": 3996317,
+      "txSuccess": 3143563,
+      "feesXlm": 4474,
+      "activeAddresses": 42993,
+      "newAccounts": 10141,
+      "paymentOps": 4749270
+    },
+    {
+      "date": "2026-04-25",
+      "txCount": 4009602,
+      "txSuccess": 3023842,
+      "feesXlm": 4299,
+      "activeAddresses": 37595,
+      "newAccounts": 8951,
+      "paymentOps": 4576489
+    },
+    {
+      "date": "2026-04-26",
+      "txCount": 4068926,
+      "txSuccess": 3036414,
+      "feesXlm": 4468,
+      "activeAddresses": 35206,
+      "newAccounts": 11795,
+      "paymentOps": 5160439
+    },
+    {
+      "date": "2026-04-27",
+      "txCount": 4039429,
+      "txSuccess": 3072298,
+      "feesXlm": 3883,
+      "activeAddresses": 43243,
+      "newAccounts": 13748,
+      "paymentOps": 2599448
+    },
+    {
+      "date": "2026-04-28",
+      "txCount": 4315186,
+      "txSuccess": 3399960,
+      "feesXlm": 4571,
+      "activeAddresses": 44116,
+      "newAccounts": 12372,
+      "paymentOps": 2327182
+    },
+    {
+      "date": "2026-04-29",
+      "txCount": 4591636,
+      "txSuccess": 3543071,
+      "feesXlm": 4746,
+      "activeAddresses": 52906,
+      "newAccounts": 14793,
+      "paymentOps": 2282103
+    },
+    {
+      "date": "2026-04-30",
+      "txCount": 4299543,
+      "txSuccess": 3379478,
+      "feesXlm": 4407,
+      "activeAddresses": 49499,
+      "newAccounts": 14938,
+      "paymentOps": 3033803
+    },
+    {
+      "date": "2026-05-01",
+      "txCount": 4473083,
+      "txSuccess": 3448178,
+      "feesXlm": 4466,
+      "activeAddresses": 59940,
+      "newAccounts": 11731,
+      "paymentOps": 2583942
+    },
+    {
+      "date": "2026-05-02",
+      "txCount": 4187505,
+      "txSuccess": 3200526,
+      "feesXlm": 3817,
+      "activeAddresses": 39700,
+      "newAccounts": 8914,
+      "paymentOps": 2525491
+    },
+    {
+      "date": "2026-05-03",
+      "txCount": 4345417,
+      "txSuccess": 3225846,
+      "feesXlm": 3938,
+      "activeAddresses": 39178,
+      "newAccounts": 10014,
+      "paymentOps": 2367649
+    },
+    {
+      "date": "2026-05-04",
+      "txCount": 4761227,
+      "txSuccess": 3668459,
+      "feesXlm": 5201,
+      "activeAddresses": 69290,
+      "newAccounts": 12376,
+      "paymentOps": 2705030
+    },
+    {
+      "date": "2026-05-05",
+      "txCount": 4190913,
+      "txSuccess": 3206632,
+      "feesXlm": 3788,
+      "activeAddresses": 49179,
+      "newAccounts": 9938,
+      "paymentOps": 2007625
+    },
+    {
+      "date": "2026-05-06",
+      "txCount": 4405285,
+      "txSuccess": 3474298,
+      "feesXlm": 4289,
+      "activeAddresses": 57411,
+      "newAccounts": 12860,
+      "paymentOps": 1800495
+    },
+    {
+      "date": "2026-05-07",
+      "txCount": 4648385,
+      "txSuccess": 3840228,
+      "feesXlm": 5730,
+      "activeAddresses": 49817,
+      "newAccounts": 5519,
+      "paymentOps": 1765980
+    },
+    {
+      "date": "2026-05-08",
+      "txCount": 4906242,
+      "txSuccess": 3848823,
+      "feesXlm": 5299,
+      "activeAddresses": 44518,
+      "newAccounts": 5187,
+      "paymentOps": 1759455
+    },
+    {
+      "date": "2026-05-09",
+      "txCount": 4698655,
+      "txSuccess": 3735642,
+      "feesXlm": 5071,
+      "activeAddresses": 47352,
+      "newAccounts": 9400,
+      "paymentOps": 2299488
+    },
+    {
+      "date": "2026-05-10",
+      "txCount": 5061969,
+      "txSuccess": 3998372,
+      "feesXlm": 5381,
+      "activeAddresses": 40304,
+      "newAccounts": 5243,
+      "paymentOps": 1763931
+    },
+    {
+      "date": "2026-05-11",
+      "txCount": 5057998,
+      "txSuccess": 3994474,
+      "feesXlm": 5802,
+      "activeAddresses": 47982,
+      "newAccounts": 5547,
+      "paymentOps": 1686363
+    },
+    {
+      "date": "2026-05-12",
+      "txCount": 4691780,
+      "txSuccess": 3732964,
+      "feesXlm": 5814,
+      "activeAddresses": 50761,
+      "newAccounts": 6156,
+      "paymentOps": 1808609
+    },
+    {
+      "date": "2026-05-13",
+      "txCount": 4634086,
+      "txSuccess": 3620427,
+      "feesXlm": 5893,
+      "activeAddresses": 50397,
+      "newAccounts": 7220,
+      "paymentOps": 2050266
+    },
+    {
+      "date": "2026-05-14",
+      "txCount": 5033461,
+      "txSuccess": 3929853,
+      "feesXlm": 6565,
+      "activeAddresses": 49368,
+      "newAccounts": 5620,
+      "paymentOps": 2510915
+    },
+    {
+      "date": "2026-05-15",
+      "txCount": 4926563,
+      "txSuccess": 3947586,
+      "feesXlm": 5949,
+      "activeAddresses": 48857,
+      "newAccounts": 5660,
+      "paymentOps": 2587974
+    },
+    {
+      "date": "2026-05-16",
+      "txCount": 4838362,
+      "txSuccess": 3886527,
+      "feesXlm": 5995,
+      "activeAddresses": 41511,
+      "newAccounts": 5378,
+      "paymentOps": 1796164
+    },
+    {
+      "date": "2026-05-17",
+      "txCount": 4670728,
+      "txSuccess": 3737181,
+      "feesXlm": 5827,
+      "activeAddresses": 37394,
+      "newAccounts": 4487,
+      "paymentOps": 3588235
+    },
+    {
+      "date": "2026-05-18",
+      "txCount": 4742573,
+      "txSuccess": 3814591,
+      "feesXlm": 6330,
+      "activeAddresses": 46180,
+      "newAccounts": 5562,
+      "paymentOps": 3013627
+    },
+    {
+      "date": "2026-05-19",
+      "txCount": 4982536,
+      "txSuccess": 3850302,
+      "feesXlm": 7982,
+      "activeAddresses": 49960,
+      "newAccounts": 9287,
+      "paymentOps": 4381750
+    },
+    {
+      "date": "2026-05-20",
+      "txCount": 5223227,
+      "txSuccess": 3946621,
+      "feesXlm": 5998,
+      "activeAddresses": 50952,
+      "newAccounts": 9533,
+      "paymentOps": 4297016
+    },
+    {
+      "date": "2026-05-21",
+      "txCount": 4992426,
+      "txSuccess": 3847693,
+      "feesXlm": 6156,
+      "activeAddresses": 44732,
+      "newAccounts": 4981,
+      "paymentOps": 3049659
+    },
+    {
+      "date": "2026-05-22",
+      "txCount": 4852000,
+      "txSuccess": 3764308,
+      "feesXlm": 6001,
+      "activeAddresses": 46148,
+      "newAccounts": 9800,
+      "paymentOps": 4330529
+    },
+    {
+      "date": "2026-05-23",
+      "txCount": 4629635,
+      "txSuccess": 3751261,
+      "feesXlm": 5452,
+      "activeAddresses": 47220,
+      "newAccounts": 6797,
+      "paymentOps": 4470563
+    },
+    {
+      "date": "2026-05-24",
+      "txCount": 5379799,
+      "txSuccess": 3990577,
+      "feesXlm": 5926,
+      "activeAddresses": 37777,
+      "newAccounts": 4938,
+      "paymentOps": 4319750
+    },
+    {
+      "date": "2026-05-25",
+      "txCount": 5175018,
+      "txSuccess": 3973105,
+      "feesXlm": 6132,
+      "activeAddresses": 42715,
+      "newAccounts": 5282,
+      "paymentOps": 5356439
+    },
+    {
+      "date": "2026-05-26",
+      "txCount": 4753191,
+      "txSuccess": 3863392,
+      "feesXlm": 5993,
+      "activeAddresses": 45468,
+      "newAccounts": 5773,
+      "paymentOps": 2361616
+    },
+    {
+      "date": "2026-05-27",
+      "txCount": 5937123,
+      "txSuccess": 4077480,
+      "feesXlm": 7808,
+      "activeAddresses": 63508,
+      "newAccounts": 8081,
+      "paymentOps": 4375294
+    },
+    {
+      "date": "2026-05-28",
+      "txCount": 6998335,
+      "txSuccess": 4441004,
+      "feesXlm": 8489,
+      "activeAddresses": 58042,
+      "newAccounts": 8647,
+      "paymentOps": 3734504
+    },
+    {
+      "date": "2026-05-29",
+      "txCount": 6974677,
+      "txSuccess": 4296639,
+      "feesXlm": 9316,
+      "activeAddresses": 57066,
+      "newAccounts": 11013,
+      "paymentOps": 3399215
+    },
+    {
+      "date": "2026-05-30",
+      "txCount": 7128077,
+      "txSuccess": 4345253,
+      "feesXlm": 9822,
+      "activeAddresses": 51209,
+      "newAccounts": 8244,
+      "paymentOps": 4936078
+    },
+    {
+      "date": "2026-05-31",
+      "txCount": 5969959,
+      "txSuccess": 4101974,
+      "feesXlm": 7207,
+      "activeAddresses": 48014,
+      "newAccounts": 6765,
+      "paymentOps": 3992841
+    },
+    {
+      "date": "2026-06-01",
+      "txCount": 6295209,
+      "txSuccess": 4212583,
+      "feesXlm": 7552,
+      "activeAddresses": 56890,
+      "newAccounts": 8607,
+      "paymentOps": 2423791
+    },
+    {
+      "date": "2026-06-02",
+      "txCount": 5354193,
+      "txSuccess": 3853310,
+      "feesXlm": 7329,
+      "activeAddresses": 86775,
+      "newAccounts": 7474,
+      "paymentOps": 2777927
+    },
+    {
+      "date": "2026-06-03",
+      "txCount": 5566863,
+      "txSuccess": 4069381,
+      "feesXlm": 9777,
+      "activeAddresses": 59869,
+      "newAccounts": 8292,
+      "paymentOps": 2273115
+    },
+    {
+      "date": "2026-06-04",
+      "txCount": 5389670,
+      "txSuccess": 3877978,
+      "feesXlm": 7249,
+      "activeAddresses": 57473,
+      "newAccounts": 6706,
+      "paymentOps": 1696139
+    },
+    {
+      "date": "2026-06-05",
+      "txCount": 5620315,
+      "txSuccess": 3893397,
+      "feesXlm": 6088,
+      "activeAddresses": 56903,
+      "newAccounts": 9037,
+      "paymentOps": 2565617
+    },
+    {
+      "date": "2026-06-06",
+      "txCount": 5432458,
+      "txSuccess": 3904404,
+      "feesXlm": 5926,
+      "activeAddresses": 46574,
+      "newAccounts": 4941,
+      "paymentOps": 3193622
+    },
+    {
+      "date": "2026-06-07",
+      "txCount": 5163503,
+      "txSuccess": 3910511,
+      "feesXlm": 5947,
+      "activeAddresses": 42608,
+      "newAccounts": 5002,
+      "paymentOps": 5079808
+    },
+    {
+      "date": "2026-06-08",
+      "txCount": 5000281,
+      "txSuccess": 3845862,
+      "feesXlm": 6084,
+      "activeAddresses": 49045,
+      "newAccounts": 5367,
+      "paymentOps": 3707231
+    },
+    {
+      "date": "2026-06-09",
+      "txCount": 5148690,
+      "txSuccess": 3876979,
+      "feesXlm": 5993,
+      "activeAddresses": 52919,
+      "newAccounts": 5704,
+      "paymentOps": 6948606
+    },
+    {
+      "date": "2026-06-10",
+      "txCount": 4945428,
+      "txSuccess": 3837107,
+      "feesXlm": 5843,
+      "activeAddresses": 63077,
+      "newAccounts": 19710,
+      "paymentOps": 3745692
+    },
+    {
+      "date": "2026-06-11",
+      "txCount": 4369793,
+      "txSuccess": 3434151,
+      "feesXlm": 6818,
+      "activeAddresses": 49988,
+      "newAccounts": 9505,
+      "paymentOps": 4862300
+    },
+    {
+      "date": "2026-06-12",
+      "txCount": 4432095,
+      "txSuccess": 3446149,
+      "feesXlm": 5290,
+      "activeAddresses": 50984,
+      "newAccounts": 11337,
+      "paymentOps": 3644886
+    },
+    {
+      "date": "2026-06-13",
+      "txCount": 4465219,
+      "txSuccess": 3500855,
+      "feesXlm": 5134,
+      "activeAddresses": 46676,
+      "newAccounts": 8941,
+      "paymentOps": 5856804
+    },
+    {
+      "date": "2026-06-14",
+      "txCount": 4764864,
+      "txSuccess": 3738619,
+      "feesXlm": 5908,
+      "activeAddresses": 41191,
+      "newAccounts": 8490,
+      "paymentOps": 3319628
+    },
+    {
+      "date": "2026-06-15",
+      "txCount": 5488884,
+      "txSuccess": 3806686,
+      "feesXlm": 6670,
+      "activeAddresses": 52999,
+      "newAccounts": 10711,
+      "paymentOps": 4272437
+    },
+    {
+      "date": "2026-06-16",
+      "txCount": 5475847,
+      "txSuccess": 3984604,
+      "feesXlm": 6192,
+      "activeAddresses": 71707,
+      "newAccounts": 10986,
+      "paymentOps": 2973193
+    },
+    {
+      "date": "2026-06-17",
+      "txCount": 5267590,
+      "txSuccess": 3868700,
+      "feesXlm": 6704,
+      "activeAddresses": 60804,
+      "newAccounts": 14604,
+      "paymentOps": 4238583
+    },
+    {
+      "date": "2026-06-18",
+      "txCount": 5156850,
+      "txSuccess": 3262670,
+      "feesXlm": 5202,
+      "activeAddresses": 55771,
+      "newAccounts": 13166,
+      "paymentOps": 3372958
+    },
+    {
+      "date": "2026-06-19",
+      "txCount": 3363496,
+      "txSuccess": 1922963,
+      "feesXlm": 1646,
+      "activeAddresses": 49173,
+      "newAccounts": 11844,
+      "paymentOps": 4003994
+    },
+    {
+      "date": "2026-06-20",
+      "txCount": 2870851,
+      "txSuccess": 1679180,
+      "feesXlm": 1601,
+      "activeAddresses": 39077,
+      "newAccounts": 10475,
+      "paymentOps": 3141435
+    },
+    {
+      "date": "2026-06-21",
+      "txCount": 2595874,
+      "txSuccess": 1480609,
+      "feesXlm": 1124,
+      "activeAddresses": 35143,
+      "newAccounts": 9520,
+      "paymentOps": 2609073
+    },
+    {
+      "date": "2026-06-22",
+      "txCount": 3966731,
+      "txSuccess": 2860231,
+      "feesXlm": 4001,
+      "activeAddresses": 64458,
+      "newAccounts": 12209,
+      "paymentOps": 1993044
+    },
+    {
+      "date": "2026-06-23",
+      "txCount": 5101693,
+      "txSuccess": 4074594,
+      "feesXlm": 7735,
+      "activeAddresses": 63084,
+      "newAccounts": 21370,
+      "paymentOps": 2407363
+    },
+    {
+      "date": "2026-06-24",
+      "txCount": 5037624,
+      "txSuccess": 3921288,
+      "feesXlm": 6919,
+      "activeAddresses": 63417,
+      "newAccounts": 20946,
+      "paymentOps": 2773419
+    },
+    {
+      "date": "2026-06-25",
+      "txCount": 4940952,
+      "txSuccess": 3863563,
+      "feesXlm": 6967,
+      "activeAddresses": 102826,
+      "newAccounts": 13306,
+      "paymentOps": 2503921
+    },
+    {
+      "date": "2026-06-26",
+      "txCount": 2331571,
+      "txSuccess": 1783448,
+      "feesXlm": 2506,
+      "activeAddresses": 24707,
+      "newAccounts": 4791,
+      "paymentOps": 852727,
+      "partial": true
+    }
+  ],
+  "dexDaily": [
+    {
+      "date": "2026-03-28",
+      "trades": 745065,
+      "usdVolume": 948224,
+      "traders": 5127,
+      "contractEvents": 836515,
+      "activeContracts": 359
+    },
+    {
+      "date": "2026-03-29",
+      "trades": 824145,
+      "usdVolume": 1269391,
+      "traders": 5887,
+      "contractEvents": 870458,
+      "activeContracts": 489
+    },
+    {
+      "date": "2026-03-30",
+      "trades": 803694,
+      "usdVolume": 10428396,
+      "traders": 5755,
+      "contractEvents": 1006701,
+      "activeContracts": 622
+    },
+    {
+      "date": "2026-03-31",
+      "trades": 762373,
+      "usdVolume": 19168132,
+      "traders": 6397,
+      "contractEvents": 1023451,
+      "activeContracts": 467
+    },
+    {
+      "date": "2026-04-01",
+      "trades": 740759,
+      "usdVolume": 20607856,
+      "traders": 6077,
+      "contractEvents": 989851,
+      "activeContracts": 607
+    },
+    {
+      "date": "2026-04-02",
+      "trades": 671192,
+      "usdVolume": 5404407,
+      "traders": 6209,
+      "contractEvents": 914248,
+      "activeContracts": 558
+    },
+    {
+      "date": "2026-04-03",
+      "trades": 610897,
+      "usdVolume": 3757321,
+      "traders": 4670,
+      "contractEvents": 770879,
+      "activeContracts": 389
+    },
+    {
+      "date": "2026-04-04",
+      "trades": 467378,
+      "usdVolume": 424128,
+      "traders": 4182,
+      "contractEvents": 882056,
+      "activeContracts": 481
+    },
+    {
+      "date": "2026-04-05",
+      "trades": 475437,
+      "usdVolume": 546081,
+      "traders": 4793,
+      "contractEvents": 865631,
+      "activeContracts": 356
+    },
+    {
+      "date": "2026-04-06",
+      "trades": 851222,
+      "usdVolume": 20973625,
+      "traders": 4713,
+      "contractEvents": 873921,
+      "activeContracts": 525
+    },
+    {
+      "date": "2026-04-07",
+      "trades": 805736,
+      "usdVolume": 4834637,
+      "traders": 5376,
+      "contractEvents": 888769,
+      "activeContracts": 572
+    },
+    {
+      "date": "2026-04-08",
+      "trades": 823009,
+      "usdVolume": 7711825,
+      "traders": 6220,
+      "contractEvents": 856359,
+      "activeContracts": 620
+    },
+    {
+      "date": "2026-04-09",
+      "trades": 614793,
+      "usdVolume": 20671146,
+      "traders": 6967,
+      "contractEvents": 947954,
+      "activeContracts": 624
+    },
+    {
+      "date": "2026-04-10",
+      "trades": 855393,
+      "usdVolume": 10566169,
+      "traders": 5988,
+      "contractEvents": 889703,
+      "activeContracts": 514
+    },
+    {
+      "date": "2026-04-11",
+      "trades": 655252,
+      "usdVolume": 551339,
+      "traders": 5567,
+      "contractEvents": 883088,
+      "activeContracts": 351
+    },
+    {
+      "date": "2026-04-12",
+      "trades": 1868523,
+      "usdVolume": 493481,
+      "traders": 5270,
+      "contractEvents": 865783,
+      "activeContracts": 442
+    },
+    {
+      "date": "2026-04-13",
+      "trades": 1378736,
+      "usdVolume": 21366637,
+      "traders": 6193,
+      "contractEvents": 839749,
+      "activeContracts": 476
+    },
+    {
+      "date": "2026-04-14",
+      "trades": 1601766,
+      "usdVolume": 23359898,
+      "traders": 6442,
+      "contractEvents": 845368,
+      "activeContracts": 469
+    },
+    {
+      "date": "2026-04-15",
+      "trades": 1835244,
+      "usdVolume": 37644727,
+      "traders": 6593,
+      "contractEvents": 839939,
+      "activeContracts": 404
+    },
+    {
+      "date": "2026-04-16",
+      "trades": 1818788,
+      "usdVolume": 6491784,
+      "traders": 6246,
+      "contractEvents": 874052,
+      "activeContracts": 608
+    },
+    {
+      "date": "2026-04-17",
+      "trades": 1691560,
+      "usdVolume": 12846899,
+      "traders": 7394,
+      "contractEvents": 900238,
+      "activeContracts": 439
+    },
+    {
+      "date": "2026-04-18",
+      "trades": 1781825,
+      "usdVolume": 1120276,
+      "traders": 6220,
+      "contractEvents": 813329,
+      "activeContracts": 346
+    },
+    {
+      "date": "2026-04-19",
+      "trades": 1373598,
+      "usdVolume": 1601514,
+      "traders": 5139,
+      "contractEvents": 737475,
+      "activeContracts": 395
+    },
+    {
+      "date": "2026-04-20",
+      "trades": 1985335,
+      "usdVolume": 33602526,
+      "traders": 6824,
+      "contractEvents": 792420,
+      "activeContracts": 503
+    },
+    {
+      "date": "2026-04-21",
+      "trades": 1519628,
+      "usdVolume": 18907850,
+      "traders": 6558,
+      "contractEvents": 863185,
+      "activeContracts": 520
+    },
+    {
+      "date": "2026-04-22",
+      "trades": 1624351,
+      "usdVolume": 17513127,
+      "traders": 5539,
+      "contractEvents": 780116,
+      "activeContracts": 482
+    },
+    {
+      "date": "2026-04-23",
+      "trades": 1736321,
+      "usdVolume": 25731579,
+      "traders": 6072,
+      "contractEvents": 847818,
+      "activeContracts": 478
+    },
+    {
+      "date": "2026-04-24",
+      "trades": 1150167,
+      "usdVolume": 13525805,
+      "traders": 4617,
+      "contractEvents": 770850,
+      "activeContracts": 713
+    },
+    {
+      "date": "2026-04-25",
+      "trades": 1195565,
+      "usdVolume": 603196,
+      "traders": 4112,
+      "contractEvents": 770853,
+      "activeContracts": 380
+    },
+    {
+      "date": "2026-04-26",
+      "trades": 1654257,
+      "usdVolume": 1285396,
+      "traders": 4465,
+      "contractEvents": 773901,
+      "activeContracts": 387
+    },
+    {
+      "date": "2026-04-27",
+      "trades": 1770804,
+      "usdVolume": 26452346,
+      "traders": 4514,
+      "contractEvents": 781167,
+      "activeContracts": 434
+    },
+    {
+      "date": "2026-04-28",
+      "trades": 1424164,
+      "usdVolume": 23728058,
+      "traders": 4595,
+      "contractEvents": 1020662,
+      "activeContracts": 521
+    },
+    {
+      "date": "2026-04-29",
+      "trades": 1543203,
+      "usdVolume": 32067816,
+      "traders": 5189,
+      "contractEvents": 1263669,
+      "activeContracts": 613
+    },
+    {
+      "date": "2026-04-30",
+      "trades": 1332629,
+      "usdVolume": 21736067,
+      "traders": 4133,
+      "contractEvents": 773876,
+      "activeContracts": 476
+    },
+    {
+      "date": "2026-05-01",
+      "trades": 1277601,
+      "usdVolume": 4947097,
+      "traders": 4070,
+      "contractEvents": 725101,
+      "activeContracts": 366
+    },
+    {
+      "date": "2026-05-02",
+      "trades": 1286226,
+      "usdVolume": 2816013,
+      "traders": 3965,
+      "contractEvents": 739397,
+      "activeContracts": 321
+    },
+    {
+      "date": "2026-05-03",
+      "trades": 1338094,
+      "usdVolume": 550973,
+      "traders": 5054,
+      "contractEvents": 739188,
+      "activeContracts": 376
+    },
+    {
+      "date": "2026-05-04",
+      "trades": 1384236,
+      "usdVolume": 24974197,
+      "traders": 5091,
+      "contractEvents": 780663,
+      "activeContracts": 421
+    },
+    {
+      "date": "2026-05-05",
+      "trades": 1600765,
+      "usdVolume": 28031990,
+      "traders": 5519,
+      "contractEvents": 743930,
+      "activeContracts": 593
+    },
+    {
+      "date": "2026-05-06",
+      "trades": 1534225,
+      "usdVolume": 28637489,
+      "traders": 5464,
+      "contractEvents": 894749,
+      "activeContracts": 461
+    },
+    {
+      "date": "2026-05-07",
+      "trades": 1641967,
+      "usdVolume": 13500543,
+      "traders": 5500,
+      "contractEvents": 1022549,
+      "activeContracts": 592
+    },
+    {
+      "date": "2026-05-08",
+      "trades": 1759269,
+      "usdVolume": 21205154,
+      "traders": 5313,
+      "contractEvents": 905299,
+      "activeContracts": 405
+    },
+    {
+      "date": "2026-05-09",
+      "trades": 1811633,
+      "usdVolume": 6326140,
+      "traders": 5750,
+      "contractEvents": 905111,
+      "activeContracts": 397
+    },
+    {
+      "date": "2026-05-10",
+      "trades": 1891556,
+      "usdVolume": 1993757,
+      "traders": 6824,
+      "contractEvents": 975897,
+      "activeContracts": 401
+    },
+    {
+      "date": "2026-05-11",
+      "trades": 1772691,
+      "usdVolume": 41881859,
+      "traders": 6891,
+      "contractEvents": 982925,
+      "activeContracts": 418
+    },
+    {
+      "date": "2026-05-12",
+      "trades": 1490589,
+      "usdVolume": 25490761,
+      "traders": 6280,
+      "contractEvents": 926738,
+      "activeContracts": 412
+    },
+    {
+      "date": "2026-05-13",
+      "trades": 1740992,
+      "usdVolume": 23142398,
+      "traders": 6785,
+      "contractEvents": 913650,
+      "activeContracts": 495
+    },
+    {
+      "date": "2026-05-14",
+      "trades": 1931086,
+      "usdVolume": 28237319,
+      "traders": 7791,
+      "contractEvents": 981126,
+      "activeContracts": 441
+    },
+    {
+      "date": "2026-05-15",
+      "trades": 1740960,
+      "usdVolume": 16622385,
+      "traders": 6632,
+      "contractEvents": 970703,
+      "activeContracts": 439
+    },
+    {
+      "date": "2026-05-16",
+      "trades": 1604523,
+      "usdVolume": 2089285,
+      "traders": 5794,
+      "contractEvents": 959919,
+      "activeContracts": 365
+    },
+    {
+      "date": "2026-05-17",
+      "trades": 1494076,
+      "usdVolume": 1431354,
+      "traders": 5411,
+      "contractEvents": 918783,
+      "activeContracts": 378
+    },
+    {
+      "date": "2026-05-18",
+      "trades": 1316263,
+      "usdVolume": 27471434,
+      "traders": 6439,
+      "contractEvents": 939037,
+      "activeContracts": 452
+    },
+    {
+      "date": "2026-05-19",
+      "trades": 1361831,
+      "usdVolume": 32619680,
+      "traders": 6608,
+      "contractEvents": 887041,
+      "activeContracts": 469
+    },
+    {
+      "date": "2026-05-20",
+      "trades": 1319601,
+      "usdVolume": 34114510,
+      "traders": 6205,
+      "contractEvents": 941928,
+      "activeContracts": 422
+    },
+    {
+      "date": "2026-05-21",
+      "trades": 1212905,
+      "usdVolume": 36418325,
+      "traders": 5991,
+      "contractEvents": 945015,
+      "activeContracts": 440
+    },
+    {
+      "date": "2026-05-22",
+      "trades": 1441612,
+      "usdVolume": 9600944,
+      "traders": 6724,
+      "contractEvents": 951873,
+      "activeContracts": 434
+    },
+    {
+      "date": "2026-05-23",
+      "trades": 1415496,
+      "usdVolume": 1001158,
+      "traders": 5972,
+      "contractEvents": 978756,
+      "activeContracts": 404
+    },
+    {
+      "date": "2026-05-24",
+      "trades": 1487218,
+      "usdVolume": 1200683,
+      "traders": 5748,
+      "contractEvents": 975876,
+      "activeContracts": 329
+    },
+    {
+      "date": "2026-05-25",
+      "trades": 1335541,
+      "usdVolume": 21589675,
+      "traders": 6462,
+      "contractEvents": 990390,
+      "activeContracts": 370
+    },
+    {
+      "date": "2026-05-26",
+      "trades": 1398988,
+      "usdVolume": 21716347,
+      "traders": 5650,
+      "contractEvents": 1052626,
+      "activeContracts": 382
+    },
+    {
+      "date": "2026-05-27",
+      "trades": 1585843,
+      "usdVolume": 13693381,
+      "traders": 10748,
+      "contractEvents": 1072010,
+      "activeContracts": 467
+    },
+    {
+      "date": "2026-05-28",
+      "trades": 2280936,
+      "usdVolume": 40843380,
+      "traders": 12633,
+      "contractEvents": 1196093,
+      "activeContracts": 536
+    },
+    {
+      "date": "2026-05-29",
+      "trades": 2275753,
+      "usdVolume": 42674412,
+      "traders": 11031,
+      "contractEvents": 1177445,
+      "activeContracts": 530
+    },
+    {
+      "date": "2026-05-30",
+      "trades": 2202989,
+      "usdVolume": 20834435,
+      "traders": 11006,
+      "contractEvents": 1149830,
+      "activeContracts": 499
+    },
+    {
+      "date": "2026-05-31",
+      "trades": 1908856,
+      "usdVolume": 12332305,
+      "traders": 11684,
+      "contractEvents": 1145472,
+      "activeContracts": 441
+    },
+    {
+      "date": "2026-06-01",
+      "trades": 2375648,
+      "usdVolume": 53107909,
+      "traders": 9997,
+      "contractEvents": 1181765,
+      "activeContracts": 491
+    },
+    {
+      "date": "2026-06-02",
+      "trades": 1890033,
+      "usdVolume": 77151551,
+      "traders": 10020,
+      "contractEvents": 1081926,
+      "activeContracts": 491
+    },
+    {
+      "date": "2026-06-03",
+      "trades": 2597517,
+      "usdVolume": 28782804,
+      "traders": 9352,
+      "contractEvents": 1062825,
+      "activeContracts": 440
+    },
+    {
+      "date": "2026-06-04",
+      "trades": 2406278,
+      "usdVolume": 34107880,
+      "traders": 9019,
+      "contractEvents": 1045225,
+      "activeContracts": 488
+    },
+    {
+      "date": "2026-06-05",
+      "trades": 2193314,
+      "usdVolume": 23953159,
+      "traders": 10403,
+      "contractEvents": 1256261,
+      "activeContracts": 474
+    },
+    {
+      "date": "2026-06-06",
+      "trades": 1866272,
+      "usdVolume": 6162674,
+      "traders": 9919,
+      "contractEvents": 1165878,
+      "activeContracts": 465
+    },
+    {
+      "date": "2026-06-07",
+      "trades": 1585735,
+      "usdVolume": 5184220,
+      "traders": 8592,
+      "contractEvents": 1173241,
+      "activeContracts": 366
+    },
+    {
+      "date": "2026-06-08",
+      "trades": 1624016,
+      "usdVolume": 32873318,
+      "traders": 7673,
+      "contractEvents": 1120839,
+      "activeContracts": 410
+    },
+    {
+      "date": "2026-06-09",
+      "trades": 1441949,
+      "usdVolume": 22412546,
+      "traders": 8435,
+      "contractEvents": 998689,
+      "activeContracts": 404
+    },
+    {
+      "date": "2026-06-10",
+      "trades": 1736348,
+      "usdVolume": 39347103,
+      "traders": 6872,
+      "contractEvents": 1047873,
+      "activeContracts": 464
+    },
+    {
+      "date": "2026-06-11",
+      "trades": 1499376,
+      "usdVolume": 17463399,
+      "traders": 7201,
+      "contractEvents": 964952,
+      "activeContracts": 416
+    },
+    {
+      "date": "2026-06-12",
+      "trades": 1695524,
+      "usdVolume": 11438298,
+      "traders": 6532,
+      "contractEvents": 866967,
+      "activeContracts": 439
+    },
+    {
+      "date": "2026-06-13",
+      "trades": 1569497,
+      "usdVolume": 1248418,
+      "traders": 6036,
+      "contractEvents": 948689,
+      "activeContracts": 354
+    },
+    {
+      "date": "2026-06-14",
+      "trades": 1491263,
+      "usdVolume": 1501982,
+      "traders": 5934,
+      "contractEvents": 1069292,
+      "activeContracts": 423
+    },
+    {
+      "date": "2026-06-15",
+      "trades": 1840585,
+      "usdVolume": 21247445,
+      "traders": 10208,
+      "contractEvents": 1108017,
+      "activeContracts": 506
+    },
+    {
+      "date": "2026-06-16",
+      "trades": 1573057,
+      "usdVolume": 54152987,
+      "traders": 9690,
+      "contractEvents": 1179479,
+      "activeContracts": 444
+    },
+    {
+      "date": "2026-06-17",
+      "trades": 996291,
+      "usdVolume": 30575912,
+      "traders": 8493,
+      "contractEvents": 1258377,
+      "activeContracts": 440
+    },
+    {
+      "date": "2026-06-18",
+      "trades": 1506805,
+      "usdVolume": 29959582,
+      "traders": 9387,
+      "contractEvents": 900568,
+      "activeContracts": 461
+    },
+    {
+      "date": "2026-06-19",
+      "trades": 1319200,
+      "usdVolume": 13081829,
+      "traders": 7312,
+      "contractEvents": 173062,
+      "activeContracts": 450
+    },
+    {
+      "date": "2026-06-20",
+      "trades": 1073815,
+      "usdVolume": 1649000,
+      "traders": 5587,
+      "contractEvents": 131133,
+      "activeContracts": 376
+    },
+    {
+      "date": "2026-06-21",
+      "trades": 888074,
+      "usdVolume": 1490016,
+      "traders": 5468,
+      "contractEvents": 132020,
+      "activeContracts": 342
+    },
+    {
+      "date": "2026-06-22",
+      "trades": 998717,
+      "usdVolume": 22984983,
+      "traders": 6543,
+      "contractEvents": 632477,
+      "activeContracts": 422
+    },
+    {
+      "date": "2026-06-23",
+      "trades": 923227,
+      "usdVolume": 25998133,
+      "traders": 6644,
+      "contractEvents": 1318879,
+      "activeContracts": 499
+    },
+    {
+      "date": "2026-06-24",
+      "trades": 1069516,
+      "usdVolume": 19230715,
+      "traders": 5867,
+      "contractEvents": 1231163,
+      "activeContracts": 428
+    },
+    {
+      "date": "2026-06-25",
+      "trades": 1276569,
+      "usdVolume": 20669113,
+      "traders": 6217,
+      "contractEvents": 1344949,
+      "activeContracts": 457
+    },
+    {
+      "date": "2026-06-26",
+      "trades": 652584,
+      "usdVolume": 1886844,
+      "traders": 3160,
+      "contractEvents": 503945,
+      "activeContracts": 341,
+      "partial": true
+    }
+  ],
+  "stablecoinSupply": [
+    {
+      "symbol": "USDC",
+      "supplyUsd": 268349610
+    },
+    {
+      "symbol": "C1USD",
+      "supplyUsd": 49899935
+    },
+    {
+      "symbol": "EURCV",
+      "supplyUsd": 17056982
+    },
+    {
+      "symbol": "PYUSD",
+      "supplyUsd": 7400090
+    },
+    {
+      "symbol": "AUDD",
+      "supplyUsd": 3804996
+    },
+    {
+      "symbol": "EURC",
+      "supplyUsd": 3067640
+    },
+    {
+      "symbol": "USDGLO",
+      "supplyUsd": 251606
+    },
+    {
+      "symbol": "GYEN",
+      "supplyUsd": 220970
+    },
+    {
+      "symbol": "veur",
+      "supplyUsd": 4414
+    }
+  ]
+}

@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Stellar Network Analytics</title>
+  <!-- Chart.js (pin a version for reproducibility). Self-hosted page — CDN is fine.
+       To go fully offline/CSP-strict, download chart.umd.min.js next to this file and
+       change src to "./chart.umd.min.js". -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg: #0b0b0f;
+      --panel: #15151c;
+      --panel-2: #1c1c26;
+      --line: #2a2a37;
+      --text: #f5f5f7;
+      --muted: #9b9bab;
+      --accent: #fdda24;      /* Stellar yellow */
+      --accent-2: #7d56f3;    /* violet for secondary series */
+      --good: #3ad29f;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.4;
+    }
+    .wrap { max-width: 1200px; margin: 0 auto; padding: 32px 20px 64px; }
+    header { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 4px; }
+    h1 { font-size: 22px; font-weight: 650; letter-spacing: -0.01em; margin: 0; }
+    .meta { color: var(--muted); font-size: 12.5px; }
+    .meta a { color: var(--accent); text-decoration: none; }
+
+    .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin: 24px 0 28px; }
+    .kpi { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 18px 18px 16px; }
+    .kpi .label { color: var(--muted); font-size: 12.5px; font-weight: 500; }
+    .kpi .value { font-size: 30px; font-weight: 700; letter-spacing: -0.02em; margin: 6px 0 2px; }
+    .kpi .sub { color: var(--muted); font-size: 11.5px; }
+
+    .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 18px; min-width: 0; }
+    .card.full { grid-column: 1 / -1; }
+    .card h2 { font-size: 14.5px; font-weight: 600; margin: 0 0 2px; }
+    .card .hint { color: var(--muted); font-size: 11.5px; margin: 0 0 14px; }
+    .chart-box { position: relative; height: 280px; }
+
+    footer { color: var(--muted); font-size: 11.5px; margin-top: 28px; border-top: 1px solid var(--line); padding-top: 16px; }
+    .partial { color: var(--accent); }
+    @media (max-width: 760px) { .grid { grid-template-columns: 1fr; } h1 { font-size: 19px; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Stellar Network Analytics</h1>
+      <div class="meta" id="meta">Loading…</div>
+    </header>
+
+    <div class="kpis" id="kpis"></div>
+
+    <div class="grid">
+      <div class="card full">
+        <h2>Network activity</h2>
+        <p class="hint">Daily transactions vs. active addresses</p>
+        <div class="chart-box"><canvas id="activity"></canvas></div>
+      </div>
+      <div class="card">
+        <h2>Payment operations</h2>
+        <p class="hint">Daily payment ops</p>
+        <div class="chart-box"><canvas id="payments"></canvas></div>
+      </div>
+      <div class="card">
+        <h2>DEX volume</h2>
+        <p class="hint">Daily DEX trade volume (USD)</p>
+        <div class="chart-box"><canvas id="dex"></canvas></div>
+      </div>
+      <div class="card full">
+        <h2>Stablecoin supply on Stellar</h2>
+        <p class="hint">Latest total supply by asset (USD)</p>
+        <div class="chart-box" style="height:340px"><canvas id="stablecoins"></canvas></div>
+      </div>
+    </div>
+
+    <footer id="footer"></footer>
+  </div>
+
+  <script>
+    const fmt = {
+      compact: n => Intl.NumberFormat("en", { notation: "compact", maximumFractionDigits: 2 }).format(n),
+      usdCompact: n => "$" + Intl.NumberFormat("en", { notation: "compact", maximumFractionDigits: 2 }).format(n),
+      usd4: n => "$" + n.toFixed(4),
+      int: n => Intl.NumberFormat("en").format(n),
+    };
+
+    Chart.defaults.color = "#9b9bab";
+    Chart.defaults.font.family = getComputedStyle(document.body).fontFamily;
+    Chart.defaults.borderColor = "#2a2a37";
+    const ACCENT = "#fdda24", ACCENT2 = "#7d56f3", GOOD = "#3ad29f";
+
+    const labelDate = d => new Date(d + "T00:00:00Z").toLocaleDateString("en", { month: "short", day: "numeric", timeZone: "UTC" });
+
+    async function main() {
+      const data = await (await fetch("./data/metrics.json", { cache: "no-store" })).json();
+
+      // Meta
+      document.getElementById("meta").innerHTML =
+        `Source: ${data.meta.source} · Updated ${data.meta.generated}`;
+
+      // KPIs
+      const kpiOrder = ["operationCount", "activeAddresses", "newAddresses", "stablecoinSupplyUsd", "avgFeeUsd"];
+      document.getElementById("kpis").innerHTML = kpiOrder.map(k => {
+        const v = data.kpis[k]; if (!v) return "";
+        return `<div class="kpi"><div class="label">${v.label}</div>
+          <div class="value">${fmt[v.format](v.value)}</div>
+          <div class="sub">${v.sub}</div></div>`;
+      }).join("");
+
+      const days = data.daily.map(d => labelDate(d.date));
+      const baseAxes = stacked => ({
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: "index", intersect: false },
+        plugins: { legend: { labels: { boxWidth: 12, boxHeight: 12, usePointStyle: true } } },
+        scales: {
+          x: { grid: { display: false }, ticks: { autoSkip: true, maxTicksLimit: 10, maxRotation: 0 } },
+          y: { grid: { color: "#22222e" }, ticks: { callback: v => fmt.compact(v) }, stacked }
+        }
+      });
+
+      // Network activity — bars (tx) + line (active addresses) on 2nd axis
+      new Chart(document.getElementById("activity"), {
+        data: {
+          labels: days,
+          datasets: [
+            { type: "bar", label: "Transactions", data: data.daily.map(d => d.txCount), backgroundColor: ACCENT + "cc", borderRadius: 4, yAxisID: "y" },
+            { type: "line", label: "Active addresses", data: data.daily.map(d => d.activeAddresses), borderColor: ACCENT2, backgroundColor: ACCENT2, tension: 0.3, pointRadius: 3, yAxisID: "y1" }
+          ]
+        },
+        options: {
+          ...baseAxes(false),
+          scales: {
+            x: { grid: { display: false }, ticks: { autoSkip: true, maxTicksLimit: 10, maxRotation: 0 } },
+            y:  { position: "left",  grid: { color: "#22222e" }, ticks: { callback: v => fmt.compact(v) }, title: { display: true, text: "Transactions" } },
+            y1: { position: "right", grid: { display: false },   ticks: { callback: v => fmt.compact(v) }, title: { display: true, text: "Active addresses" } }
+          }
+        }
+      });
+
+      // Payments
+      new Chart(document.getElementById("payments"), {
+        type: "bar",
+        data: { labels: days, datasets: [{ label: "Payment ops", data: data.daily.map(d => d.paymentOps), backgroundColor: GOOD + "cc", borderRadius: 4 }] },
+        options: baseAxes(false)
+      });
+
+      // DEX volume
+      const dexDays = data.dexDaily.map(d => labelDate(d.date));
+      new Chart(document.getElementById("dex"), {
+        type: "bar",
+        data: { labels: dexDays, datasets: [{ label: "DEX volume (USD)", data: data.dexDaily.map(d => d.usdVolume), backgroundColor: ACCENT + "cc", borderRadius: 4 }] },
+        options: { ...baseAxes(false), scales: { x: { grid: { display: false }, ticks: { autoSkip: true, maxTicksLimit: 10, maxRotation: 0 } }, y: { grid: { color: "#22222e" }, ticks: { callback: v => fmt.usdCompact(v) } } },
+          plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => fmt.usdCompact(c.parsed.y) } } } }
+      });
+
+      // Stablecoin supply — horizontal bars
+      const sc = [...data.stablecoinSupply].sort((a, b) => b.supplyUsd - a.supplyUsd);
+      new Chart(document.getElementById("stablecoins"), {
+        type: "bar",
+        data: { labels: sc.map(s => s.symbol), datasets: [{ label: "Supply (USD)", data: sc.map(s => s.supplyUsd), backgroundColor: ACCENT2 + "cc", borderRadius: 4 }] },
+        options: {
+          indexAxis: "y", responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => fmt.usdCompact(c.parsed.x) } } },
+          scales: { x: { grid: { color: "#22222e" }, ticks: { callback: v => fmt.usdCompact(v) } }, y: { grid: { display: false } } }
+        }
+      });
+
+      // Footer
+      const partial = data.daily.some(d => d.partial);
+      document.getElementById("footer").innerHTML =
+        `${data.meta.freshnessNote} ${partial ? '<span class="partial">Latest day is partial.</span>' : ""}<br>${data.meta.seedNote || ""}`;
+    }
+    main().catch(e => { document.getElementById("meta").textContent = "Failed to load data: " + e.message; });
+  </script>
+</body>
+</html>
