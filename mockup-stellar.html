@@ -179,10 +179,10 @@
       const data=await (await fetch("./data/metrics.json",{cache:"no-store"})).json();
       document.getElementById("updated").innerHTML=`Source: ${data.meta.source} · Updated ${data.meta.generated}`;
 
-      const order=["operationCount","activeAddresses","newAddresses","stablecoinSupplyUsd","avgFeeUsd"];
-      document.getElementById("kpis").innerHTML=order.map((k,i)=>{
+      const order=["rwaMarketCapUsd","stablecoinSupplyUsd","operationCount","activeAddresses","avgFeeUsd"];
+      document.getElementById("kpis").innerHTML=order.map(k=>{
         const v=data.kpis[k]; if(!v) return "";
-        return `<div class="kpi${i===3?' accent':''}"><div class="n">${fmt[v.format](v.value)}</div><div class="l">${v.label}</div><div class="s">${v.sub}</div></div>`;
+        return `<div class="kpi${k==="rwaMarketCapUsd"?' accent':''}"><div class="n">${fmt[v.format](v.value)}</div><div class="l">${v.label}</div><div class="s">${v.sub}</div></div>`;
       }).join("");
 
       const days=data.daily.map(d=>labelDate(d.date));
@@ -260,23 +260,28 @@
     async function renderExtra(){
       let x; try{ x=await (await fetch("./data/extra-metrics.json",{cache:"no-store"})).json(); }catch{ return; }
       let any=false;
-      if(x.smartContractOps?.series?.length){ any=true;
-        stacked(card("Smart contracts","Smart contract operations","Monthly operations by type",true),x.smartContractOps.months,x.smartContractOps.series,"type",false); }
-      if(x.dexByProtocol?.volume?.length){ any=true;
-        stacked(card("DeFi","DEX volume by protocol","Monthly trade volume (USD)"),x.dexByProtocol.months,x.dexByProtocol.volume,"protocol",true);
-        if(x.dexByProtocol.trades?.length) stacked(card("DeFi","DEX trades by protocol","Monthly trade count"),x.dexByProtocol.months,x.dexByProtocol.trades,"protocol",false); }
-      if(x.stablecoinVolumeByAsset?.series?.length){ any=true;
-        stacked(card("Stablecoins","Stablecoin transfer volume by asset","Monthly volume (USD)",true),x.stablecoinVolumeByAsset.months,x.stablecoinVolumeByAsset.series,"asset",true); }
-      if(x.blendTvl?.series?.length){ any=true;
-        stacked(card("DeFi · Lending","Blend protocol TVL","Monthly TVL (USD) by asset"),x.blendTvl.months,x.blendTvl.series,"assetClass",true); }
+      // §1 Tokenized RWA — lead with the headline ($2.92B)
       if(x.rwaByIssuer?.series?.length){ any=true;
-        stacked(card("RWA","RWA market cap by issuer","Monthly market cap (USD)"+(x.rwaByIssuer.holdersTotal?` · ${fmt.compact(x.rwaByIssuer.holdersTotal)} holders`:"")),x.rwaByIssuer.months,x.rwaByIssuer.series,"issuer",true); }
+        stacked(card("Tokenized RWA","RWA market cap by issuer","Monthly market cap, USD"+(x.rwaByIssuer.holdersTotal?` · ${fmt.compact(x.rwaByIssuer.holdersTotal)} holder positions`:""),true),x.rwaByIssuer.months,x.rwaByIssuer.series,"issuer",true); }
       else if(x.rwaByIssuer?.latest?.length){ any=true;
         const r=[...x.rwaByIssuer.latest].sort((a,b)=>b.marketCapUsd-a.marketCapUsd);
-        new Chart(card("RWA","RWA market cap by issuer","Latest market cap (USD)"+(x.rwaByIssuer.holdersTotal?` · ${fmt.compact(x.rwaByIssuer.holdersTotal)} holders`:""),false,320),{
+        new Chart(card("Tokenized RWA","RWA market cap by issuer","Latest market cap, USD"+(x.rwaByIssuer.holdersTotal?` · ${fmt.compact(x.rwaByIssuer.holdersTotal)} holder positions`:""),true,340),{
           type:"bar",data:{labels:r.map(i=>i.issuer),datasets:[{data:r.map(i=>i.marketCapUsd),backgroundColor:NAVY,borderRadius:2}]},
           options:{indexAxis:"y",responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmt.usdCompact(c.parsed.x)}}},
             scales:{x:{grid:{color:"#ECEDEE"},ticks:{callback:v=>fmt.usdCompact(v)}},y:{grid:{display:false}}}}}); }
+      // §2 Stablecoin settlement
+      if(x.stablecoinVolumeByAsset?.series?.length){ any=true;
+        stacked(card("Stablecoin settlement","Stablecoin transfer volume by asset","Monthly volume, USD",true),x.stablecoinVolumeByAsset.months,x.stablecoinVolumeByAsset.series,"asset",true); }
+      // §3 Treasury & yield — DEX + Blend
+      if(x.dexByProtocol?.volume?.length){ any=true;
+        stacked(card("Treasury & yield","DEX volume by protocol","Monthly trade volume, USD"),x.dexByProtocol.months,x.dexByProtocol.volume,"protocol",true);
+        if(x.dexByProtocol.trades?.length) stacked(card("Treasury & yield","DEX trades by protocol","Monthly trade count"),x.dexByProtocol.months,x.dexByProtocol.trades,"protocol",false); }
+      if(x.blendTvl?.series?.length){ any=true;
+        stacked(card("Treasury & yield","Blend protocol TVL","Monthly TVL, USD"),x.blendTvl.months,x.blendTvl.series,"assetClass",true); }
+      // §4 Smart contracts
+      if(x.smartContractOps?.series?.length){ any=true;
+        stacked(card("Smart contracts","Smart contract operations","Monthly operations by type"),x.smartContractOps.months,x.smartContractOps.series,"type",false); }
+      // §5 Bridges
       if(x.bridgeFlows?.inflows?.length){ any=true;
         const win=x.bridgeFlows.window?` (${x.bridgeFlows.window})`:"";
         hbar(card("Bridges","Bridge inflows by source chain",`Total inflow volume, USD${win}`,false,320),topN(x.bridgeFlows.inflows,"total"),"chain","total",TEAL);

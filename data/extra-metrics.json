@@ -5,9 +5,9 @@
     "smartContractOps": "stellar.raw.operations, columns ledger_close_time + type. Three Soroban op types present: invoke_host_function (dominant, ~19M-65M/mo), restore_footprint, extend_footprint_ttl. No create_contract/upload_wasm as distinct type values (those are sub-kinds of invoke_host_function host fns).",
     "dex": "stellar.dex.trades, columns ledger_close_time, protocol, usd_amount. 4 protocols: stellar_orderbook, stellar_liquidity_pool, aquarius, soroswap. A small null-protocol bucket in 2026-03 dropped.",
     "stablecoins": "stellar.stablecoins.transfers, columns ledger_close_time, asset_code, usd_amount. Top 10 by 12mo total USD volume. Some assets have null usd in early months (no price); treated as 0.",
-    "rwa": "latest market cap = stellar.rwa.balances_eod (block_date=2026-06-26, balance>0) joined to latest stellar.rwa.supply_change.usd_exchange_rate per token_symbol; market_cap = sum(balance)*rate. This is the Stellar-native on-ledger snapshot (209 holders, ~14 tokens). NOTE: balances_eod is Stellar-chain only and undercounts vs. crosschain issued supply (e.g. supply_change cumulative mint for EUTBL/BENJI/USDY is far larger). Monthly 'series' = cumulative running net mint-minus-burn USD (stellar.rwa.supply_change is_mint/is_burn, usd_amount), a directional supply proxy NOT a clean market-cap stock; tokens with null usd_exchange_rate (most WisdomTree, Mercado Bitcoin, Red Swan, Janus Henderson) excluded from priced series. holdersTotal=209 (distinct on-ledger addresses with positive RWA balance today).",
+    "rwa": "Market cap from crosschain.rwa.supply_latest / metrics_daily (chain='stellar') — Allium's curated, priced RWA model (price_usd*supply). Reconciles to ~$2.92B, matching the public Allium dashboard. Monthly series = end-of-month snapshots. holdersTotal=15,455 holder-positions (sum of per-token holders).",
     "blend": "stellar.lending.deposits & stellar.lending.withdrawals (project=protocol='blend'), columns ledger_close_time, usd_amount, token_address. TVL = cumulative monthly (deposits_usd - withdrawals_usd) within the 12mo window, total only. Asset-class breakdown NOT available: token_symbol is null on these rows and token_address holds raw Soroban contract IDs with no symbol map. Cumulative is window-relative (starts at June 2025 net flow, not protocol inception), so absolute level is a lower-bound proxy.",
-    "bridges": "stellar.bridges.transfers, columns ledger_close_time, source_chain, destination_chain, direction, usd_amount. inbound = <chain>->stellar, outbound = stellar-><chain>. Values are 12-month TOTALS per chain (single bucket 'total'), NOT a monthly series \u2014 monthly granularity omitted because per-chain monthly volumes are very sparse (most chains <2000 transfers/yr) and would be mostly zeros. Ethereum dominates both directions (~$36M in / $34M out). Chains with null usd (berachain, hyperliquid, flow, xrpl-evm) excluded."
+    "bridges": "stellar.bridges.transfers, columns ledger_close_time, source_chain, destination_chain, direction, usd_amount. inbound = <chain>->stellar, outbound = stellar-><chain>. Values are 12-month TOTALS per chain (single bucket 'total'), NOT a monthly series — monthly granularity omitted because per-chain monthly volumes are very sparse (most chains <2000 transfers/yr) and would be mostly zeros. Ethereum dominates both directions (~$36M in / $34M out). Chains with null usd (berachain, hyperliquid, flow, xrpl-evm) excluded."
   },
   "smartContractOps": {
     "months": [
@@ -423,52 +423,15 @@
     ]
   },
   "rwaByIssuer": {
-    "latest": [
-      {
-        "issuer": "Spiko EU T-Bills Money Market Fund",
-        "symbol": "EUTBL",
-        "holders": 35,
-        "marketCapUsd": 25539750
-      },
-      {
-        "issuer": "Spiko Amundi Overnight Swap Fund EUR",
-        "symbol": "eurSAFO",
-        "holders": 11,
-        "marketCapUsd": 5327451
-      },
-      {
-        "issuer": "Etherfuse CETES",
-        "symbol": "CETES",
-        "holders": 56,
-        "marketCapUsd": 2070692
-      },
-      {
-        "issuer": "Etherfuse USTRY",
-        "symbol": "USTRY",
-        "holders": 34,
-        "marketCapUsd": 874353
-      },
-      {
-        "issuer": "Etherfuse TESOURO",
-        "symbol": "TESOURO",
-        "holders": 6,
-        "marketCapUsd": 497444
-      },
-      {
-        "issuer": "Ondo US Dollar Yield (Stellar)",
-        "symbol": "USDY",
-        "holders": 42,
-        "marketCapUsd": 920
-      },
-      {
-        "issuer": "Franklin OnChain U.S. Government Money Fund",
-        "symbol": "BENJI",
-        "holders": 1,
-        "marketCapUsd": 212
-      }
-    ],
-    "holdersTotal": 209,
+    "marketCapUsd": 2918358437,
+    "holdersTotal": 15455,
     "months": [
+      "2024-12",
+      "2025-01",
+      "2025-02",
+      "2025-03",
+      "2025-04",
+      "2025-05",
       "2025-06",
       "2025-07",
       "2025-08",
@@ -480,62 +443,84 @@
       "2026-02",
       "2026-03",
       "2026-04",
-      "2026-05"
+      "2026-05",
+      "2026-06"
     ],
     "series": [
       {
-        "issuer": "Ondo US Dollar Yield (Stellar)",
+        "issuer": "Spiko",
         "data": [
           0,
           0,
           0,
-          607147,
-          978861,
-          978861,
-          978861,
-          10838823,
-          119583559,
-          119583559,
-          119583559,
-          522230625
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          25013300,
+          57304956,
+          161658917,
+          247650843,
+          391513062,
+          570477861,
+          757002322,
+          934594815,
+          1058074116
         ]
       },
       {
-        "issuer": "Spiko EU T-Bills Money Market Fund",
+        "issuer": "Franklin Templeton",
         "data": [
-          0,
-          0,
-          0,
-          0,
-          13862505,
-          39403754,
-          129838769,
-          206569736,
-          332946860,
-          450826808,
-          458658696,
-          500283926
+          281958992,
+          313286320,
+          442905029,
+          453384059,
+          468099168,
+          497775397,
+          457926252,
+          460658242,
+          557112234,
+          526345168,
+          601669728,
+          591977672,
+          569313235,
+          651192191,
+          675157682,
+          655839212,
+          640502476,
+          651649116,
+          662812340
         ]
       },
       {
-        "issuer": "Franklin OnChain U.S. Government Money Fund",
+        "issuer": "Ondo Finance",
         "data": [
-          6067834,
-          8730686,
-          66038818,
-          35100959,
-          110223410,
-          115098527,
-          92236843,
-          162828843,
-          186269569,
-          165646902,
-          146320933,
-          137134094
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          600117,
+          995948,
+          998416,
+          1004543,
+          10873373,
+          121960713,
+          123288646,
+          122803104,
+          524783959,
+          527339889
         ]
       },
       {
-        "issuer": "Spiko Amundi Overnight Swap Fund EUR",
+        "issuer": "Realiz",
         "data": [
           0,
           0,
@@ -547,12 +532,19 @@
           0,
           0,
           0,
-          20326907,
-          116022572
+          0,
+          0,
+          0,
+          0,
+          40000000,
+          40000000,
+          500000000,
+          500000000,
+          500000000
         ]
       },
       {
-        "issuer": "Spiko Amundi Overnight Swap Fund",
+        "issuer": "Red Swan",
         "data": [
           0,
           0,
@@ -560,30 +552,182 @@
           0,
           0,
           0,
-          0,
-          0,
-          0,
-          0,
-          34413251,
-          59858808
+          54250000,
+          54250000,
+          54250000,
+          107962800,
+          107962800,
+          107962800,
+          107962800,
+          107962800,
+          107962800,
+          107962800,
+          107962800,
+          107962800,
+          107962800
         ]
       },
       {
-        "issuer": "Etherfuse USTRY",
+        "issuer": "WisdomTree",
+        "data": [
+          15176451,
+          15622702,
+          15709344,
+          15241754,
+          15404400,
+          20002647,
+          25755463,
+          27356992,
+          27800947,
+          29216678,
+          29754019,
+          29706950,
+          29384712,
+          30053284,
+          29951146,
+          29109137,
+          31805284,
+          33609707,
+          32707429
+        ]
+      },
+      {
+        "issuer": "Mercado Bitcoin",
         "data": [
           0,
-          2,
-          2,
-          45923,
-          10081862,
-          10081862,
-          10081878,
-          10081878,
-          10081878,
-          11081102,
-          11081102,
-          11081102
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          10675381,
+          11199816,
+          11342540,
+          11194028,
+          11739190,
+          11590510,
+          11241585
         ]
+      },
+      {
+        "issuer": "Anemoy Capital",
+        "data": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          5015577,
+          5022505,
+          5041039,
+          10066247,
+          10091478
+        ]
+      },
+      {
+        "issuer": "Etherfuse",
+        "data": [
+          0,
+          1990052,
+          0,
+          2004481,
+          2279371,
+          2293499,
+          2553797,
+          2574040,
+          3592197,
+          3685350,
+          14339490,
+          15094548,
+          15754985,
+          14554791,
+          15465571,
+          3941018,
+          4688706,
+          3353256,
+          5102360
+        ]
+      },
+      {
+        "issuer": "Bitbond Finance GmbH",
+        "data": [
+          2765217,
+          2782838,
+          2793237,
+          2911713,
+          3034701,
+          3025651,
+          3139865,
+          3054187,
+          3110765,
+          3132898,
+          3083017,
+          3086227,
+          3135327,
+          3180395,
+          3149984,
+          3068058,
+          3122522,
+          3107034,
+          3026440
+        ]
+      }
+    ],
+    "latest": [
+      {
+        "issuer": "Spiko",
+        "marketCapUsd": 1058074116
+      },
+      {
+        "issuer": "Franklin Templeton",
+        "marketCapUsd": 662812340
+      },
+      {
+        "issuer": "Ondo Finance",
+        "marketCapUsd": 527339889
+      },
+      {
+        "issuer": "Realiz",
+        "marketCapUsd": 500000000
+      },
+      {
+        "issuer": "Red Swan",
+        "marketCapUsd": 107962800
+      },
+      {
+        "issuer": "WisdomTree",
+        "marketCapUsd": 32707429
+      },
+      {
+        "issuer": "Mercado Bitcoin",
+        "marketCapUsd": 11241585
+      },
+      {
+        "issuer": "Anemoy Capital",
+        "marketCapUsd": 10091478
+      },
+      {
+        "issuer": "Etherfuse",
+        "marketCapUsd": 5102360
+      },
+      {
+        "issuer": "Bitbond Finance GmbH",
+        "marketCapUsd": 3026440
       }
     ]
   },

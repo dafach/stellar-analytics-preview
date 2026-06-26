@@ -6,6 +6,12 @@
     "seedNote": "90-day daily series + latest stablecoin supply from live Allium queries (2026-06-26)."
   },
   "kpis": {
+    "rwaMarketCapUsd": {
+      "label": "RWA Market Cap",
+      "value": 2918358438,
+      "format": "usdCompact",
+      "sub": "Latest · tokenized treasuries, funds & securities"
+    },
     "operationCount": {
       "label": "Operation Count",
       "value": 2860000000,
