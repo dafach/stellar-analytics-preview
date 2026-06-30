@@ -192,7 +192,7 @@
     async function main(){
       const d=await (await fetch("./data/metrics.json",{cache:"no-store"})).json();
       let x={};try{x=await (await fetch("./data/extra-metrics.json",{cache:"no-store"})).json();}catch{}
-      document.getElementById("updated").innerHTML=`Source: Allium (live SQL) · Updated ${d.meta.generated}`;
+      document.getElementById("updated").innerHTML=`Source: ${d.meta.source||"Allium"} · Data as of ${d.meta.generated}`;
 
       // KPIs — lead with RWA + stablecoin
       const order=["rwaMarketCapUsd","stablecoinSupplyUsd","operationCount","activeAddresses","avgFeeUsd"];
@@ -282,7 +282,7 @@
         {responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmt.usdCompact(c.parsed.y)}}},
           scales:{x:{grid:{display:false},ticks:xT},y:{grid:{color:"#ECEDEE"},ticks:{callback:v=>fmt.usdCompact(v)}}}});
 
-      document.getElementById("ftr-note").innerHTML=`© 2026 Stellar Development Foundation · Data: Allium (live) · ${d.meta.generated}`;
+      document.getElementById("ftr-note").innerHTML=`© 2026 Stellar Development Foundation · ${d.meta.source||"Allium"} · ${d.meta.generated}`;
     }
     main().catch(e=>{document.getElementById("updated").textContent="Failed to load data: "+e.message;});
   </script>

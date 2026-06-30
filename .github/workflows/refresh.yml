@@ -1,0 +1,33 @@
+name: Refresh Stellar analytics data
+
+on:
+  schedule:
+    - cron: "30 8 * * *"   # daily 08:30 UTC — after Allium's ~05:00 UTC raw-table update
+  workflow_dispatch: {}      # allow manual runs from the Actions tab
+
+permissions:
+  contents: write            # commit refreshed JSON back to the repo
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Refresh data from Allium
+        env:
+          ALLIUM_API_KEY: ${{ secrets.ALLIUM_API_KEY }}
+        run: node scripts/refresh.mjs
+      - name: Commit updated data
+        run: |
+          git config user.name "stellar-analytics-bot"
+          git config user.email "actions@github.com"
+          if ! git diff --quiet -- data/; then
+            git add data/
+            git commit -m "data: daily Allium refresh ($(date -u +%Y-%m-%d))"
+            git push
+          else
+            echo "No data changes."
+          fi

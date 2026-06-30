@@ -1,0 +1,19 @@
+{
+  "_comment": "Allium Explorer saved-query IDs feeding the dashboard. Tag 'stellar-dashboard'. Edit SQL in the Allium app (app.allium.so/analyze/queries/<id>); the pipeline runs them by ID.",
+  "dailyNetwork":        "yPCPDnUmmp1SBOnRmO5v",
+  "dailyDex":            "ErCS4GHLrrBDiFJ7VBUP",
+  "kpiNetwork":          "zyzkN1MYO2Yzgf2KmbkP",
+  "kpiFees":             "yZfdJid0UD6KUTehpz7S",
+  "xlmPrice":            "WhxwzxD8HUkTiMPqKsiI",
+  "stablecoinSupply":    "AmOrr6nksSAV98a8SMoW",
+  "rwaLatestByIssuer":   "J2k2gy2becIq3dNwN0MN",
+  "rwaTotals":           "PvHdDOhEDS3aItOuuOJS",
+  "rwaMonthly":          "zzFlpl3SNve9IPsCRne0",
+  "stablecoinMcapMonthly":"Bw4nDgfFs3IJRkCGxeDU",
+  "dexByProtocolMonthly":"R2ojThjxyYoHnOL98uQ4",
+  "stablecoinVolByAsset":"yeAje2rt5Lp3Pm1nujuq",
+  "smartContractOps":    "MbXFlpPxgaJqEykrjGaO",
+  "compliance":          "0HOnR4eg6bpnXFViqTXa",
+  "blendTvl":            "DLlwuFx3D672sJlLVSnr",
+  "bridges":             "2YGx71wTFIoSc8CmEeWC"
+}
