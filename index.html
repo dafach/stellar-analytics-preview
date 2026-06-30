@@ -4,185 +4,287 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Stellar Network Analytics</title>
-  <!-- Chart.js (pin a version for reproducibility). Self-hosted page — CDN is fine.
-       To go fully offline/CSP-strict, download chart.umd.min.js next to this file and
-       change src to "./chart.umd.min.js". -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
   <style>
-    :root {
-      --bg: #0b0b0f;
-      --panel: #15151c;
-      --panel-2: #1c1c26;
-      --line: #2a2a37;
-      --text: #f5f5f7;
-      --muted: #9b9bab;
-      --accent: #fdda24;      /* Stellar yellow */
-      --accent-2: #7d56f3;    /* violet for secondary series */
-      --good: #3ad29f;
+    /* Stellar / SDF design tokens (Stellar Design System: colors_and_type.css) */
+    :root{
+      --stellar-yellow:#FDDA24;--stellar-black:#0F0F0F;--off-white:#F6F7F8;
+      --lilac:#B7ACE8;--teal:#00A7B5;--navy:#002E5D;
+      --ink-200:#D9DBDD;--ink-400:#8E9194;--ink-500:#5F6164;
+      --bg:#fff;--fg:#0F0F0F;--fg-muted:#5F6164;--fg-subtle:#8E9194;--border:#D9DBDD;
+      --font-serif:"Lora",Georgia,serif;--font-sans:"Inter",-apple-system,system-ui,sans-serif;
+      --radius-3:16px;--stroke:1px solid var(--stellar-black);
     }
-    * { box-sizing: border-box; }
-    html, body { margin: 0; padding: 0; }
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      -webkit-font-smoothing: antialiased;
-      line-height: 1.4;
-    }
-    .wrap { max-width: 1200px; margin: 0 auto; padding: 32px 20px 64px; }
-    header { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 4px; }
-    h1 { font-size: 22px; font-weight: 650; letter-spacing: -0.01em; margin: 0; }
-    .meta { color: var(--muted); font-size: 12.5px; }
-    .meta a { color: var(--accent); text-decoration: none; }
-
-    .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin: 24px 0 28px; }
-    .kpi { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 18px 18px 16px; }
-    .kpi .label { color: var(--muted); font-size: 12.5px; font-weight: 500; }
-    .kpi .value { font-size: 30px; font-weight: 700; letter-spacing: -0.02em; margin: 6px 0 2px; }
-    .kpi .sub { color: var(--muted); font-size: 11.5px; }
-
-    .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
-    .card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 18px; min-width: 0; }
-    .card.full { grid-column: 1 / -1; }
-    .card h2 { font-size: 14.5px; font-weight: 600; margin: 0 0 2px; }
-    .card .hint { color: var(--muted); font-size: 11.5px; margin: 0 0 14px; }
-    .chart-box { position: relative; height: 280px; }
-
-    footer { color: var(--muted); font-size: 11.5px; margin-top: 28px; border-top: 1px solid var(--line); padding-top: 16px; }
-    .partial { color: var(--accent); }
-    @media (max-width: 760px) { .grid { grid-template-columns: 1fr; } h1 { font-size: 19px; } }
+    *{box-sizing:border-box}html,body{margin:0}
+    body{font:400 16px/1.6 var(--font-sans);color:var(--fg);background:var(--bg);-webkit-font-smoothing:antialiased}
+    .eyebrow{font:600 12px/1 var(--font-sans);text-transform:uppercase;letter-spacing:.14em;color:var(--fg-muted)}
+    /* Nav */
+    header.nav{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+    .nav-inner{max-width:1200px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:32px}
+    .nav-inner img{height:22px}
+    .nav-links{display:flex;gap:28px;margin-left:24px;flex:1}
+    .nav-links a{font:500 14px/1 var(--font-sans);color:var(--fg);text-decoration:none}
+    .nav-actions{display:flex;gap:10px}
+    .btn-ghost{font:500 14px/1 var(--font-sans);background:transparent;border:1px solid var(--stellar-black);padding:10px 16px;border-radius:8px;cursor:pointer}
+    .btn-primary{font:500 14px/1 var(--font-sans);background:var(--stellar-yellow);color:var(--stellar-black);border:1px solid var(--stellar-black);padding:10px 16px;border-radius:8px;cursor:pointer}
+    /* Page */
+    .wrap{max-width:1200px;margin:0 auto;padding:48px 24px 24px}
+    .page-head{max-width:780px;margin-bottom:36px}
+    .page-head h1{font:500 56px/1.05 var(--font-serif);letter-spacing:-.02em;margin:14px 0 16px}
+    .page-head .lede{font:400 20px/1.5 var(--font-sans);color:var(--fg-muted);margin:0}
+    .updated{font:500 12px/1.4 var(--font-sans);color:var(--fg-subtle);margin-top:14px}
+    /* KPI tiles */
+    .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px;margin-bottom:8px}
+    .kpi{background:#fff;border:var(--stroke);border-radius:var(--radius-3);padding:22px 20px}
+    .kpi .n{font:500 40px/1 var(--font-serif);letter-spacing:-.01em}
+    .kpi .l{font:500 12px/1.3 var(--font-sans);text-transform:uppercase;letter-spacing:.1em;color:var(--fg-muted);margin-top:10px}
+    .kpi .s{font:400 12px/1.3 var(--font-sans);color:var(--fg-subtle);margin-top:4px}
+    .kpi.accent{background:var(--stellar-yellow)}.kpi.accent .l,.kpi.accent .s{color:rgba(15,15,15,.72)}
+    /* Sections + cards */
+    .section-head{margin:44px 0 18px}
+    .section-head .section-title{font:500 32px/1.12 var(--font-serif);letter-spacing:-.01em;margin:10px 0 0}
+    .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+    .card{background:#fff;border:var(--stroke);border-radius:var(--radius-3);padding:24px;min-width:0}
+    .card.full{grid-column:1/-1}
+    .card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+    .card h2{font:500 24px/1.2 var(--font-serif);letter-spacing:-.005em;margin:8px 0 2px}
+    .card .hint{font:400 14px/1.5 var(--font-sans);color:var(--fg-muted);margin:0}
+    .ctrls{display:flex;gap:8px;align-items:center;flex-shrink:0;padding-top:4px}
+    .seg{display:inline-flex;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+    .seg button{font:500 12px/1 var(--font-sans);padding:7px 11px;background:#fff;border:0;cursor:pointer;color:var(--fg-muted);min-width:30px}
+    .seg button.on{background:var(--stellar-yellow);color:var(--stellar-black)}
+    select.gran{font:500 12px/1 var(--font-sans);padding:7px 8px;border:1px solid var(--border);border-radius:8px;background:#fff;color:var(--fg);cursor:pointer}
+    .takeaway{font:500 13px/1.45 var(--font-sans);color:var(--fg);background:var(--off-white);border-left:3px solid var(--stellar-yellow);padding:9px 13px;border-radius:0 8px 8px 0;margin:14px 0 16px}
+    .chart-box{position:relative;height:300px}
+    .stat-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin:16px 0 4px}
+    .stat{border:1px solid var(--border);border-radius:10px;padding:13px 15px}
+    .stat .n{font:500 24px/1 var(--font-serif)}
+    .stat .l{font:500 11px/1.3 var(--font-sans);text-transform:uppercase;letter-spacing:.08em;color:var(--fg-muted);margin-top:7px}
+    /* Footer */
+    footer.ftr{background:var(--stellar-black);color:#fff;padding:56px 24px 32px;margin-top:48px}
+    .ftr-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:32px}
+    .ftr-inner img{height:24px;margin-bottom:16px}
+    .ftr-inner p{font:400 14px/1.5 var(--font-sans);color:#B7BABD;max-width:320px;margin:0}
+    .ftr-col .h{font:600 12px/1 var(--font-sans);text-transform:uppercase;letter-spacing:.14em;color:#B7BABD;margin-bottom:16px}
+    .ftr-col ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px}
+    .ftr-col a{color:#fff;text-decoration:none;font:400 14px/1 var(--font-sans)}
+    .ftr-bottom{max-width:1200px;margin:40px auto 0;border-top:1px solid #2A2A2A;padding-top:24px;display:flex;justify-content:space-between;font:400 12px/1 var(--font-sans);color:#8E9194}
+    @media(max-width:820px){.grid{grid-template-columns:1fr}.ftr-inner{grid-template-columns:1fr 1fr}.nav-links{display:none}.page-head h1{font-size:40px}}
   </style>
 </head>
 <body>
+  <header class="nav"><div class="nav-inner">
+    <a href="#"><img src="assets/stellar-black.png" alt="Stellar"></a>
+    <nav class="nav-links"><a href="#">Learn</a><a href="#">Developers</a><a href="#">Ecosystem</a><a href="#">Foundation</a><a href="#">About</a></nav>
+    <div class="nav-actions"><button class="btn-ghost">Sign in</button><button class="btn-primary">Start building</button></div>
+  </div></header>
+
   <div class="wrap">
-    <header>
+    <div class="page-head">
+      <span class="eyebrow">Network analytics</span>
       <h1>Stellar Network Analytics</h1>
-      <div class="meta" id="meta">Loading…</div>
-    </header>
+      <p class="lede">Where regulated finance runs—tokenized assets, multi-currency stablecoins, and institutional-grade settlement, live on-chain.</p>
+      <div class="updated" id="updated">Loading…</div>
+    </div>
 
     <div class="kpis" id="kpis"></div>
 
-    <div class="grid">
-      <div class="card full">
-        <h2>Network activity</h2>
-        <p class="hint">Daily transactions vs. active addresses</p>
-        <div class="chart-box"><canvas id="activity"></canvas></div>
-      </div>
-      <div class="card">
-        <h2>Payment operations</h2>
-        <p class="hint">Daily payment ops</p>
-        <div class="chart-box"><canvas id="payments"></canvas></div>
-      </div>
-      <div class="card">
-        <h2>DEX volume</h2>
-        <p class="hint">Daily DEX trade volume (USD)</p>
-        <div class="chart-box"><canvas id="dex"></canvas></div>
-      </div>
-      <div class="card full">
-        <h2>Stablecoin supply on Stellar</h2>
-        <p class="hint">Latest total supply by asset (USD)</p>
-        <div class="chart-box" style="height:340px"><canvas id="stablecoins"></canvas></div>
-      </div>
-    </div>
+    <div class="section-head"><span class="eyebrow">Institutional adoption</span><h2 class="section-title">Tokenized assets &amp; stablecoin settlement</h2></div>
+    <div class="grid" id="lead-grid"></div>
 
-    <footer id="footer"></footer>
+    <div class="section-head"><span class="eyebrow">Treasury, yield &amp; compliance</span><h2 class="section-title">DeFi, smart contracts &amp; protocol-native controls</h2></div>
+    <div class="grid" id="defi-grid"></div>
+
+    <div class="section-head"><span class="eyebrow">Network fundamentals</span><h2 class="section-title">Throughput, accounts &amp; cost</h2></div>
+    <div class="grid" id="core-grid"></div>
   </div>
 
+  <footer class="ftr">
+    <div class="ftr-inner">
+      <div><img src="assets/stellar-white.png" alt="Stellar"><p>An open-source network for digital currency and payments, stewarded by the Stellar Development Foundation.</p></div>
+      <div class="ftr-col"><div class="h">Build</div><ul><li><a href="#">Documentation</a></li><li><a href="#">SDKs</a></li><li><a href="#">Smart contracts</a></li><li><a href="#">Status</a></li></ul></div>
+      <div class="ftr-col"><div class="h">Learn</div><ul><li><a href="#">What is Stellar?</a></li><li><a href="#">Lumens</a></li><li><a href="#">Use cases</a></li><li><a href="#">Blog</a></li></ul></div>
+      <div class="ftr-col"><div class="h">Foundation</div><ul><li><a href="#">About</a></li><li><a href="#">Grants</a></li><li><a href="#">Careers</a></li><li><a href="#">Press</a></li></ul></div>
+    </div>
+    <div class="ftr-bottom"><span id="ftr-note">© 2026 Stellar Development Foundation</span><span>Privacy · Terms</span></div>
+  </footer>
+
   <script>
-    const fmt = {
-      compact: n => Intl.NumberFormat("en", { notation: "compact", maximumFractionDigits: 2 }).format(n),
-      usdCompact: n => "$" + Intl.NumberFormat("en", { notation: "compact", maximumFractionDigits: 2 }).format(n),
-      usd4: n => "$" + n.toFixed(4),
-      int: n => Intl.NumberFormat("en").format(n),
+    const fmt={
+      compact:n=>Intl.NumberFormat("en",{notation:"compact",maximumFractionDigits:2}).format(n),
+      usdCompact:n=>"$"+Intl.NumberFormat("en",{notation:"compact",maximumFractionDigits:2}).format(n),
+      usdSmall:n=>"$"+Number(n).toPrecision(2),
     };
+    const NAVY="#002E5D",TEAL="#00A7B5",LILAC="#B7ACE8",BLACK="#0F0F0F",YELLOW="#FDDA24";
+    const PALETTE=[NAVY,TEAL,LILAC,YELLOW,"#8575C9","#00707A","#001833","#D6D2C4","#E6C200","#5F6164","#B7BABD","#3A3B3D"];
+    Chart.defaults.color="#5F6164";Chart.defaults.font.family='"Inter",system-ui,sans-serif';
+    Chart.defaults.font.size=12;Chart.defaults.borderColor="#ECEDEE";
+    const labelDate=d=>new Date(d+"T00:00:00Z").toLocaleDateString("en",{month:"short",day:"numeric",timeZone:"UTC"});
+    const monLabel=m=>{const[y,mo]=m.split("-");return new Date(Date.UTC(+y,+mo-1,1)).toLocaleDateString("en",{month:"short",year:"2-digit",timeZone:"UTC"});};
 
-    Chart.defaults.color = "#9b9bab";
-    Chart.defaults.font.family = getComputedStyle(document.body).fontFamily;
-    Chart.defaults.borderColor = "#2a2a37";
-    const ACCENT = "#fdda24", ACCENT2 = "#7d56f3", GOOD = "#3ad29f";
-
-    const labelDate = d => new Date(d + "T00:00:00Z").toLocaleDateString("en", { month: "short", day: "numeric", timeZone: "UTC" });
-
-    async function main() {
-      const data = await (await fetch("./data/metrics.json", { cache: "no-store" })).json();
-
-      // Meta
-      document.getElementById("meta").innerHTML =
-        `Source: ${data.meta.source} · Updated ${data.meta.generated}`;
-
-      // KPIs
-      const kpiOrder = ["operationCount", "activeAddresses", "newAddresses", "stablecoinSupplyUsd", "avgFeeUsd"];
-      document.getElementById("kpis").innerHTML = kpiOrder.map(k => {
-        const v = data.kpis[k]; if (!v) return "";
-        return `<div class="kpi"><div class="label">${v.label}</div>
-          <div class="value">${fmt[v.format](v.value)}</div>
-          <div class="sub">${v.sub}</div></div>`;
-      }).join("");
-
-      const days = data.daily.map(d => labelDate(d.date));
-      const baseAxes = stacked => ({
-        responsive: true, maintainAspectRatio: false,
-        interaction: { mode: "index", intersect: false },
-        plugins: { legend: { labels: { boxWidth: 12, boxHeight: 12, usePointStyle: true } } },
-        scales: {
-          x: { grid: { display: false }, ticks: { autoSkip: true, maxTicksLimit: 10, maxRotation: 0 } },
-          y: { grid: { color: "#22222e" }, ticks: { callback: v => fmt.compact(v) }, stacked }
-        }
-      });
-
-      // Network activity — bars (tx) + line (active addresses) on 2nd axis
-      new Chart(document.getElementById("activity"), {
-        data: {
-          labels: days,
-          datasets: [
-            { type: "bar", label: "Transactions", data: data.daily.map(d => d.txCount), backgroundColor: ACCENT + "cc", borderRadius: 4, yAxisID: "y" },
-            { type: "line", label: "Active addresses", data: data.daily.map(d => d.activeAddresses), borderColor: ACCENT2, backgroundColor: ACCENT2, tension: 0.3, pointRadius: 3, yAxisID: "y1" }
-          ]
-        },
-        options: {
-          ...baseAxes(false),
-          scales: {
-            x: { grid: { display: false }, ticks: { autoSkip: true, maxTicksLimit: 10, maxRotation: 0 } },
-            y:  { position: "left",  grid: { color: "#22222e" }, ticks: { callback: v => fmt.compact(v) }, title: { display: true, text: "Transactions" } },
-            y1: { position: "right", grid: { display: false },   ticks: { callback: v => fmt.compact(v) }, title: { display: true, text: "Active addresses" } }
-          }
-        }
-      });
-
-      // Payments
-      new Chart(document.getElementById("payments"), {
-        type: "bar",
-        data: { labels: days, datasets: [{ label: "Payment ops", data: data.daily.map(d => d.paymentOps), backgroundColor: GOOD + "cc", borderRadius: 4 }] },
-        options: baseAxes(false)
-      });
-
-      // DEX volume
-      const dexDays = data.dexDaily.map(d => labelDate(d.date));
-      new Chart(document.getElementById("dex"), {
-        type: "bar",
-        data: { labels: dexDays, datasets: [{ label: "DEX volume (USD)", data: data.dexDaily.map(d => d.usdVolume), backgroundColor: ACCENT + "cc", borderRadius: 4 }] },
-        options: { ...baseAxes(false), scales: { x: { grid: { display: false }, ticks: { autoSkip: true, maxTicksLimit: 10, maxRotation: 0 } }, y: { grid: { color: "#22222e" }, ticks: { callback: v => fmt.usdCompact(v) } } },
-          plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => fmt.usdCompact(c.parsed.y) } } } }
-      });
-
-      // Stablecoin supply — horizontal bars
-      const sc = [...data.stablecoinSupply].sort((a, b) => b.supplyUsd - a.supplyUsd);
-      new Chart(document.getElementById("stablecoins"), {
-        type: "bar",
-        data: { labels: sc.map(s => s.symbol), datasets: [{ label: "Supply (USD)", data: sc.map(s => s.supplyUsd), backgroundColor: ACCENT2 + "cc", borderRadius: 4 }] },
-        options: {
-          indexAxis: "y", responsive: true, maintainAspectRatio: false,
-          plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => fmt.usdCompact(c.parsed.x) } } },
-          scales: { x: { grid: { color: "#22222e" }, ticks: { callback: v => fmt.usdCompact(v) } }, y: { grid: { display: false } } }
-        }
-      });
-
-      // Footer
-      const partial = data.daily.some(d => d.partial);
-      document.getElementById("footer").innerHTML =
-        `${data.meta.freshnessNote} ${partial ? '<span class="partial">Latest day is partial.</span>' : ""}<br>${data.meta.seedNote || ""}`;
+    // ---- card factory: builds a card in `grid`, optional controls (pct toggle / granularity select) ----
+    function card(grid,{eyebrow,title,hint,takeaway,full,h,toggle}){
+      const el=document.createElement("div");el.className="card"+(full?" full":"");
+      let ctrls="";
+      if(toggle==="pct") ctrls=`<span class="seg"><button class="on" data-m="0">▮</button><button data-m="1">%</button></span>`;
+      if(toggle==="gran") ctrls=`<select class="gran"><option value="D">Daily</option><option value="W" selected>Weekly</option><option value="M">Monthly</option></select>`;
+      el.innerHTML=`<div class="card-head"><div><span class="eyebrow">${eyebrow}</span><h2>${title}</h2><p class="hint">${hint||""}</p></div><div class="ctrls">${ctrls}</div></div>${takeaway?`<p class="takeaway">${takeaway}</p>`:""}<div class="chart-box"${h?` style="height:${h}px"`:""}><canvas></canvas></div>`;
+      grid.appendChild(el);
+      return {el,canvas:el.querySelector("canvas"),seg:el.querySelector(".seg"),sel:el.querySelector(".gran")};
     }
-    main().catch(e => { document.getElementById("meta").textContent = "Failed to load data: " + e.message; });
+
+    // ---- stacked bar with bar/100% toggle ----
+    function stacked(c,months,series,key,usd){
+      const abs=series.map(s=>s.data.slice());
+      const chart=new Chart(c.canvas,{type:"bar",
+        data:{labels:months.map(monLabel),datasets:series.map((s,i)=>({label:s[key],data:abs[i].slice(),backgroundColor:PALETTE[i%PALETTE.length],borderRadius:1,stack:"s"}))},
+        options:{responsive:true,maintainAspectRatio:false,interaction:{mode:"index",intersect:false},
+          plugins:{legend:{labels:{boxWidth:11,boxHeight:11,usePointStyle:true,font:{size:11}}},
+            tooltip:{callbacks:{label:x=>`${x.dataset.label}: ${usd?fmt.usdCompact(x.parsed.y):fmt.compact(x.parsed.y)}`}}},
+          scales:{x:{stacked:true,grid:{display:false},ticks:{autoSkip:true,maxTicksLimit:8,maxRotation:0}},
+            y:{stacked:true,grid:{color:"#ECEDEE"},ticks:{callback:v=>usd?fmt.usdCompact(v):fmt.compact(v)}}}}});
+      if(c.seg){const btns=c.seg.querySelectorAll("button");btns.forEach(b=>b.onclick=()=>{
+        const pct=b.dataset.m==="1";btns.forEach(x=>x.classList.toggle("on",x===b));
+        for(let i=0;i<months.length;i++){const tot=pct?abs.reduce((a,d)=>a+(d[i]||0),0):0;
+          series.forEach((s,si)=>chart.data.datasets[si].data[i]=pct?(tot?abs[si][i]/tot*100:0):abs[si][i]);}
+        chart.options.scales.y.max=pct?100:undefined;
+        chart.options.scales.y.ticks.callback=pct?(v=>v+"%"):(v=>usd?fmt.usdCompact(v):fmt.compact(v));
+        chart.options.plugins.tooltip.callbacks.label=pct?(x=>`${x.dataset.label}: ${x.parsed.y.toFixed(1)}%`):(x=>`${x.dataset.label}: ${usd?fmt.usdCompact(x.parsed.y):fmt.compact(x.parsed.y)}`);
+        chart.update();});}
+      return chart;
+    }
+    function hbar(c,rows,labelKey,valKey,color){
+      new Chart(c.canvas,{type:"bar",data:{labels:rows.map(r=>r[labelKey]),datasets:[{data:rows.map(r=>r[valKey]),backgroundColor:color||NAVY,borderRadius:2}]},
+        options:{indexAxis:"y",responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:x=>fmt.usdCompact(x.parsed.x)}}},
+          scales:{x:{grid:{color:"#ECEDEE"},ticks:{callback:v=>fmt.usdCompact(v)}},y:{grid:{display:false}}}}});
+    }
+    const topN=(rows,k,n=10)=>[...rows].sort((a,b)=>b[k]-a[k]).slice(0,n);
+
+    // ---- daily chart with Daily/Weekly/Monthly re-bucketing ----
+    function bucketize(rows,gran,fields){
+      if(gran==="D")return{keys:rows.map(r=>r.date),fmt:labelDate,data:Object.fromEntries(fields.map(f=>[f.key,rows.map(r=>r[f.key])]))};
+      const g=new Map();
+      for(const r of rows){let k;
+        if(gran==="M")k=r.date.slice(0,7);
+        else{const dt=new Date(r.date+"T00:00:00Z");dt.setUTCDate(dt.getUTCDate()-((dt.getUTCDay()+6)%7));k=dt.toISOString().slice(0,10);}
+        (g.get(k)||g.set(k,[]).get(k)).push(r);}
+      const keys=[...g.keys()].sort();
+      const data={};for(const f of fields)data[f.key]=keys.map(k=>{const rs=g.get(k);const vs=rs.map(r=>r[f.key]);
+        return f.agg==="avg"?Math.round(vs.reduce((a,b)=>a+b,0)/vs.length):vs.reduce((a,b)=>a+b,0);});
+      return{keys,fmt:gran==="M"?monLabel:labelDate,data};
+    }
+    function dailyChart(c,rows,fields,opts){
+      let chart;
+      function render(gran){
+        const b=bucketize(rows,gran,fields);
+        const ds=fields.map(f=>({type:f.type||"bar",label:f.label,data:b.data[f.key],backgroundColor:f.color,borderColor:f.color,borderWidth:f.type==="line"?2:0,pointRadius:0,tension:.3,borderRadius:f.type==="line"?0:2,yAxisID:f.yAxisID||"y"}));
+        if(chart)chart.destroy();
+        chart=new Chart(c.canvas,{data:{labels:b.keys.map(b.fmt),datasets:ds},options:opts});
+      }
+      if(c.sel)c.sel.addEventListener("change",()=>render(c.sel.value));
+      render(c.sel?c.sel.value:"W");
+    }
+    const xT={autoSkip:true,maxTicksLimit:9,maxRotation:0};
+
+    async function main(){
+      const d=await (await fetch("./data/metrics.json",{cache:"no-store"})).json();
+      let x={};try{x=await (await fetch("./data/extra-metrics.json",{cache:"no-store"})).json();}catch{}
+      document.getElementById("updated").innerHTML=`Source: ${d.meta.source||"Allium"} · Data as of ${d.meta.generated}`;
+
+      // KPIs — lead with RWA + stablecoin
+      const order=["rwaMarketCapUsd","stablecoinSupplyUsd","operationCount","activeAddresses","avgFeeUsd"];
+      document.getElementById("kpis").innerHTML=order.map(k=>{const v=d.kpis[k];if(!v)return"";
+        return `<div class="kpi${k==="rwaMarketCapUsd"?" accent":""}"><div class="n">${fmt[v.format](v.value)}</div><div class="l">${v.label}</div><div class="s">${v.sub}</div></div>`;}).join("");
+
+      const LEAD=document.getElementById("lead-grid"),DEFI=document.getElementById("defi-grid"),CORE=document.getElementById("core-grid");
+
+      /* ===== §1 Institutional adoption ===== */
+      // RWA market cap by issuer
+      if(x.rwaByIssuer?.series?.length)
+        stacked(card(LEAD,{eyebrow:"Tokenized RWA",title:"RWA market cap by issuer",hint:"Monthly market cap, USD · "+fmt.compact(x.rwaByIssuer.holdersTotal||0)+" holder positions",
+          takeaway:"Approaching $3B across 10 regulated issuers—Spiko, Franklin Templeton, and Ondo lead. Up ~10x in 18 months.",full:true,toggle:"pct"}),
+          x.rwaByIssuer.months,x.rwaByIssuer.series,"issuer",true);
+      // Stablecoin market cap over time
+      if(x.stablecoinMcap?.series?.length)
+        stacked(card(LEAD,{eyebrow:"Stablecoin settlement",title:"Stablecoin market cap over time",hint:"Monthly supply, USD · excl. BRZ",
+          takeaway:"~$350M across 17 stablecoins in 9+ fiat currencies. USDC leads; C1USD, EURCV, PYUSD add multi-currency depth.",full:true,toggle:"pct"}),
+          x.stablecoinMcap.months,x.stablecoinMcap.series,"asset",true);
+      // Stablecoin supply latest (horizontal)
+      if(d.stablecoinSupply?.length){
+        const sc=[...d.stablecoinSupply].sort((a,b)=>b.supplyUsd-a.supplyUsd);
+        new Chart(card(CORE,{eyebrow:"Stablecoins",title:"Stablecoin supply (latest)",hint:"Total supply by asset, USD",
+          takeaway:"USDC is the primary settlement currency at $268M of ~$350M.",h:320}).canvas,{
+          type:"bar",data:{labels:sc.map(s=>s.symbol),datasets:[{data:sc.map(s=>s.supplyUsd),backgroundColor:sc.map((_,i)=>i===0?YELLOW:NAVY),borderColor:BLACK,borderWidth:sc.map((_,i)=>i===0?1:0),borderRadius:2}]},
+          options:{indexAxis:"y",responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmt.usdCompact(c.parsed.x)}}},
+            scales:{x:{grid:{color:"#ECEDEE"},ticks:{callback:v=>fmt.usdCompact(v)}},y:{grid:{display:false}}}}});}
+      // Stablecoin transfer volume by asset
+      if(x.stablecoinVolumeByAsset?.series?.length)
+        stacked(card(LEAD,{eyebrow:"Stablecoin settlement",title:"Stablecoin transfer volume by asset",hint:"Monthly volume, USD",
+          takeaway:"$2.3B raw / $352M adjusted moved per month over the last year (Allium report).",toggle:"pct"}),
+          x.stablecoinVolumeByAsset.months,x.stablecoinVolumeByAsset.series,"asset",true);
+
+      /* ===== §2 Treasury, yield & compliance ===== */
+      if(x.dexByProtocol?.volume?.length){
+        stacked(card(DEFI,{eyebrow:"Treasury & yield",title:"DEX volume by protocol",hint:"Monthly trade volume, USD",
+          takeaway:"Protocol-native DEX volume grew 71% YoY (Allium report)—no smart-contract risk, no MEV.",toggle:"pct"}),
+          x.dexByProtocol.months,x.dexByProtocol.volume,"protocol",true);
+        if(x.dexByProtocol.trades?.length)
+          stacked(card(DEFI,{eyebrow:"Treasury & yield",title:"DEX trades by protocol",hint:"Monthly trade count",toggle:"pct"}),
+            x.dexByProtocol.months,x.dexByProtocol.trades,"protocol",false);}
+      if(x.blendTvl?.series?.length)
+        stacked(card(DEFI,{eyebrow:"Treasury & yield",title:"Blend protocol TVL",hint:"Monthly TVL, USD",
+          takeaway:"Blend TVL grew 10.9x YoY (report); idle stablecoins earn 12–18% APY.",toggle:"pct"}),
+          x.blendTvl.months,x.blendTvl.series,"assetClass",true);
+      if(x.smartContractOps?.series?.length)
+        stacked(card(DEFI,{eyebrow:"Smart contracts",title:"Smart contract operations",hint:"Monthly operations by type",
+          takeaway:"Peaked at 52.8M Stellar smart-contract invocations in a single month (report).",toggle:"pct"}),
+          x.smartContractOps.months,x.smartContractOps.series,"type",false);
+      // Compliance
+      if(x.compliance?.series?.length){
+        const c=card(DEFI,{eyebrow:"Compliance",title:"Protocol-native compliance controls",hint:"Monthly operations by type",
+          takeaway:"Freeze, clawback, and authorization are built into consensus—not smart contracts—so they can't be bypassed by exploits.",toggle:"pct"});
+        stacked(c,x.compliance.months,x.compliance.series,"type",false);
+        if(x.compliance.allTime){const a=x.compliance.allTime;
+          const row=document.createElement("div");row.className="stat-row";
+          row.innerHTML=[["Clawback ops",a.clawback],["Freeze ops",a.freeze],["Claimable balances",a.claimableBalances],["Multisig ops",a.multisig]]
+            .map(([l,n])=>`<div class="stat"><div class="n">${n}</div><div class="l">${l}</div></div>`).join("");
+          c.el.appendChild(row);
+          const note=document.createElement("p");note.className="hint";note.style.marginTop="10px";note.textContent="All-time totals since inception (Allium report).";c.el.appendChild(note);}}
+      // Bridges
+      if(x.bridgeFlows?.inflows?.length){
+        const win=x.bridgeFlows.window?` (${x.bridgeFlows.window})`:"";
+        hbar(card(DEFI,{eyebrow:"Bridges",title:"Bridge inflows by source chain",hint:`Total inflow, USD${win}`,
+          takeaway:"Ethereum is the dominant on-ramp into Stellar.",h:320}),topN(x.bridgeFlows.inflows,"total"),"chain","total",TEAL);
+        if(x.bridgeFlows.outflows?.length)
+          hbar(card(DEFI,{eyebrow:"Bridges",title:"Bridge outflows by destination chain",hint:`Total outflow, USD${win}`,h:320}),topN(x.bridgeFlows.outflows,"total"),"chain","total",NAVY);}
+
+      /* ===== §3 Network fundamentals (daily, with granularity toggle) ===== */
+      dailyChart(card(CORE,{eyebrow:"Activity",title:"Network activity",hint:"Transactions vs. active addresses",
+        takeaway:"~95M+ successful transactions per month; activity dipped mid-June then recovered.",full:true,toggle:"gran"}),
+        d.daily,
+        [{key:"txCount",agg:"sum",label:"Transactions",color:NAVY,type:"bar",yAxisID:"y"},
+         {key:"activeAddresses",agg:"avg",label:"Active addresses (avg/day)",color:TEAL,type:"line",yAxisID:"y1"}],
+        {responsive:true,maintainAspectRatio:false,interaction:{mode:"index",intersect:false},
+          plugins:{legend:{labels:{boxWidth:12,boxHeight:12,usePointStyle:true}}},
+          scales:{x:{grid:{display:false},ticks:xT},
+            y:{position:"left",grid:{color:"#ECEDEE"},ticks:{callback:v=>fmt.compact(v)},title:{display:true,text:"Transactions"}},
+            y1:{position:"right",grid:{display:false},ticks:{callback:v=>fmt.compact(v)},title:{display:true,text:"Active addresses"}}}});
+      dailyChart(card(CORE,{eyebrow:"Payments",title:"Payment operations",hint:"Stellar's settlement core",
+        takeaway:"Payments + path payments are the network's dominant operation.",toggle:"gran"}),
+        d.daily,[{key:"paymentOps",agg:"sum",label:"Payment ops",color:LILAC,type:"bar"}],
+        {responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+          scales:{x:{grid:{display:false},ticks:xT},y:{grid:{color:"#ECEDEE"},ticks:{callback:v=>fmt.compact(v)}}}});
+      dailyChart(card(CORE,{eyebrow:"DeFi",title:"DEX volume (daily)",hint:"On-chain DEX trade volume, USD",toggle:"gran"}),
+        d.dexDaily,[{key:"usdVolume",agg:"sum",label:"DEX volume",color:TEAL,type:"bar"}],
+        {responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmt.usdCompact(c.parsed.y)}}},
+          scales:{x:{grid:{display:false},ticks:xT},y:{grid:{color:"#ECEDEE"},ticks:{callback:v=>fmt.usdCompact(v)}}}});
+
+      document.getElementById("ftr-note").innerHTML=`© 2026 Stellar Development Foundation · ${d.meta.source||"Allium"} · ${d.meta.generated}`;
+    }
+    main().catch(e=>{document.getElementById("updated").textContent="Failed to load data: "+e.message;});
   </script>
 </body>
 </html>
